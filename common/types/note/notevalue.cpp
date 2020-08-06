@@ -14,16 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-
-class NoteValue {
-  protected:
-
-	 static const float WHOLE_NOTE_VALUE     = (float) 4.0;
-	 static const float HALF_NOTE_VALUE      = (float) 2.0;
-	 static const float QUARTER_NOTE_VALUE   = (float) 1.0;
-	 static const float EIGHTH_NOTE_VALUE    = (float) 0.5;
-	 static const float SIXTEENTH_NOTE_VALUE = (float) 0.25;
-	 static const float NULL_NOTE_VALUE      = (float) -1.0;
 	
   private:
 	 std::map<NoteValueType, float> noteMapInfo;
