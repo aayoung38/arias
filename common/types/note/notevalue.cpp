@@ -4,46 +4,51 @@
  * @since       2013-06-09          
  */
 
-namespace ariasproj{
-namespace common{
-namespace types{
-namespace note{
-
+#include "notevalue.hpp"
+#include "notevaluetype.hpp"
 #include <map>
-import java.util.ArrayList;
+#include <vector>
+#include <stdlib.h>
+#include <time.h>
+using namespace arias::common::types::note;
+
+/*import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-	
+
   private:
 	 std::map<NoteValueType, float> noteMapInfo;
      NoteValueType type;
      void initializeNoteMap(){
-		 
-  public:
-    NoteValue(NoteValueType value){
-    	this.type = value;
+*/		  
 
-    	this.initializeNoteMap();
+    NoteValue::NoteValue(NoteValueType value) : n_value(value){
+    	
+    	this->initializeNoteMap();
+
+		// initialize random number
+		srand(time(NULL));
     }
 
   /**
    * Initializes the note value map by mapping the note type to the number of
    * beats the value has. 
    */
-	private void initializeNoteMap(){
-		this.noteMapInfo = new HashMap<NoteValueType,Float>();
-		this.noteMapInfo.put(NoteValueType.WHOLE, WHOLE_NOTE_VALUE);
-		this.noteMapInfo.put(NoteValueType.HALF, HALF_NOTE_VALUE);
-		this.noteMapInfo.put(NoteValueType.QUARTER, QUARTER_NOTE_VALUE);
-		this.noteMapInfo.put(NoteValueType.EIGHTH, EIGHTH_NOTE_VALUE);
-		this.noteMapInfo.put(NoteValueType.SIXTEENTH, SIXTEENTH_NOTE_VALUE);
-		this.noteMapInfo.put(NoteValueType.NULL, NULL_NOTE_VALUE);
+	void NoteValue::initializeNoteMap(){
+		this->noteMapInfo[NoteValueType::WHOLE] = WHOLE_NOTE_VALUE;
+		this->noteMapInfo[NoteValueType::HALF] = HALF_NOTE_VALUE;
+		this->noteMapInfo[NoteValueType::QUARTER] = QUARTER_NOTE_VALUE;
+		this->noteMapInfo[NoteValueType::EIGHTH] = EIGHTH_NOTE_VALUE;
+		this->noteMapInfo[NoteValueType::SIXTEENTH] = SIXTEENTH_NOTE_VALUE;
+		this->noteMapInfo[NoteValueType::NONE] = NULL_NOTE_VALUE;
 	}
 	
-  public NoteValueType getType(){ return this.type; }
+  NoteValueType NoteValue::getType() const{ return n_value; }
 	
-  public float getBeats(){ return this.noteMapInfo.get(this.type); }
+  float NoteValue::getBeats() const{ 
+	  return noteMapInfo.find(n_value)->second;
+  }
   
 	/**
 	 * Sets the note instance's beat to a random beat value based off of how many
@@ -53,28 +58,25 @@ import java.util.Random;
 	 * random selection
 	 * @param beats_left how many beats are left in a given measure of music
 	 */
-	public void setRandomValue(float beats_left){
-  	ArrayList<NoteValueType> beat_list = new ArrayList<NoteValueType>();
+  void NoteValue::setRandomValue(float beats_left){
+  	std::vector<NoteValueType> beat_list;
   	
-  	if (this.noteMapInfo.get(NoteValueType.WHOLE) <= beats_left) 
-  		beat_list.add(NoteValueType.WHOLE);
-  	if (this.noteMapInfo.get(NoteValueType.HALF) <= beats_left)
-  		beat_list.add(NoteValueType.HALF);
-  	if (this.noteMapInfo.get(NoteValueType.QUARTER) <= beats_left)
-  		beat_list.add(NoteValueType.QUARTER);
-  	if (this.noteMapInfo.get(NoteValueType.EIGHTH) <= beats_left)
-  		beat_list.add(NoteValueType.EIGHTH);
-  	if (this.noteMapInfo.get(NoteValueType.SIXTEENTH) <= beats_left)
-  		beat_list.add(NoteValueType.SIXTEENTH);
-  	
-    Random generator = new Random();
-    
-    this.type = beat_list.get(generator.nextInt(beat_list.size()));
+  	if (noteMapInfo[NoteValueType::WHOLE] <= beats_left) 
+  		beat_list.push_back(NoteValueType::WHOLE);
+  	if (noteMapInfo[NoteValueType::HALF] <= beats_left)
+  		beat_list.push_back(NoteValueType::HALF);
+  	if (noteMapInfo[NoteValueType::QUARTER] <= beats_left)
+  		beat_list.push_back(NoteValueType::QUARTER);
+  	if (noteMapInfo[NoteValueType::EIGHTH] <= beats_left)
+  		beat_list.push_back(NoteValueType::EIGHTH);
+  	if (noteMapInfo[NoteValueType::SIXTEENTH] <= beats_left)
+  		beat_list.push_back(NoteValueType::SIXTEENTH);
+  
+    n_value = beat_list.at(rand()% beat_list.size());
  
   }
 	
-  std::string output(){
-  	return "Type: "+this.type+", Value: "+this.getBeats();
+  std::string NoteValue::toString() const{
+  	return "Type: "+std::to_string(n_value)+", Value: "+std::to_string(getBeats());
   }
   
-}

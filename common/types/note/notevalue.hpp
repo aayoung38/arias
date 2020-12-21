@@ -19,6 +19,7 @@ class NoteValue {
 
   public:
 
+    NoteValue() = default;
     NoteValue(NoteValueType value);
 
     NoteValueType getType() const;
@@ -48,7 +49,7 @@ class NoteValue {
 	
   private:
 	 std::map<NoteValueType, float> noteMapInfo;
-     NoteValueType type;
+     NoteValueType n_value;
 	
 	 /**
      * Initializes the note value map by mapping the note type to the number of

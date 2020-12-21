@@ -1,6 +1,8 @@
 #pragma once
 #include "invalidintervalexception.hpp"
 
+#include "stdint.h"
+
 namespace arias{
 namespace common{
 namespace types{
@@ -11,12 +13,12 @@ class NoteInterval {
   public:
 	NoteInterval();
 	
-	NoteInterval(byte interval);
+	NoteInterval(uint8_t interval);
 
-	byte getInterval();
+	uint8_t getInterval();
 
 	private:
-      byte interval;
+      uint8_t interval;
 };
 }
 }
