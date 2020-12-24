@@ -115,7 +115,7 @@ using namespace arias::common::exceptions;
    * 
    * @return string representation of the given type
    */
-  std::string NoteLetter::typeToNote(NoteLetterType note){
+  std::string NoteLetter::typeToNote(NoteLetterType note) const{
     
     switch (note){
       case C:         return "C";
@@ -140,7 +140,7 @@ using namespace arias::common::exceptions;
     }
   }
   
-  NoteLetterType NoteLetter::noteToType(std::string note){
+  NoteLetterType NoteLetter::noteToType(std::string note) const{
    
     if (note == "C") return NoteLetterType::C;
     if (note ==  "C#") return NoteLetterType::C_SHARP;
@@ -183,7 +183,7 @@ using namespace arias::common::exceptions;
 	 *          valid note between A-G to convert to its internal number
 	 * @return note representation of the given number.
 	 */
-	int NoteLetter::noteToNumber(std::string note){
+	int NoteLetter::noteToNumber(std::string note) const{
 
 		const std::string * working_scale = noteIsFlat(note) ? AVAILABLE_NOTES_FLAT
 		    : AVAILABLE_NOTES_SHARP;
@@ -206,7 +206,7 @@ using namespace arias::common::exceptions;
 	 *          number (1-12) to convert to a note
 	 * @return note representation of the given number.
 	 */
-	std::string NoteLetter::numberToNote(int number){
+	std::string NoteLetter::numberToNote(int number) const{
 
 		return numberToNote(number,use_flats);
 	}
@@ -256,14 +256,14 @@ using namespace arias::common::exceptions;
 	 * 
 	 * @return initialized note
 	 */
-	NoteLetterType NoteLetter::getNote(){ return reference_note_type; }
+	NoteLetterType NoteLetter::getNote() const{ return reference_note_type; }
 
   /**
    * Gets the initialized note as a string
    * 
    * @return initialized note
    */
-  std::string NoteLetter::getStringNote(){ return reference_note; }
+  std::string NoteLetter::getStringNote() const{ return reference_note; }
 	
 	/**
 	 * Gets the note which is the given distance from the initialized reference note
@@ -272,7 +272,7 @@ using namespace arias::common::exceptions;
 	 * @throws InvalidNoteException
 	 * @throws InvalidIntervalException 
 	 */
-	NoteLetterType NoteLetter::getNote(int distance)
+	NoteLetterType NoteLetter::getNote(int distance) const
 	{
 	  if (distance < 0){
 	  	throw InvalidIntervalException();

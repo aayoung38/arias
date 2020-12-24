@@ -6,9 +6,12 @@
 
 #pragma once;
 
+// project includes
 #include "invalidnoteexception.hpp"
 #include "invalidintervalexception.hpp"
 #include "notelettertype.hpp"
+
+// std library includes
 #include <string>
 
 namespace arias{
@@ -71,9 +74,9 @@ class NoteLetter {
    * 
    * @return string representation of the given type
    */
-   std::string typeToNote(NoteLetterType note);
+   std::string typeToNote(NoteLetterType note) const;
   
-   NoteLetterType noteToType(std::string note);
+   NoteLetterType noteToType(std::string note) const;
   
 	/**
 	 * Determines if the given note is in terms of flats or sharps
@@ -83,7 +86,7 @@ class NoteLetter {
 	 * @param note
 	 *          note to determine is in sharps or flats.
 	 */
-	bool noteIsFlat(std::string note);
+	bool noteIsFlat(std::string note) const;
 
 	/**
 	 * Computes the given note to its equivalent representive number.
@@ -92,7 +95,7 @@ class NoteLetter {
 	 *          valid note between A-G to convert to its internal number
 	 * @return note representation of the given number.
 	 */
-	int noteToNumber(std::string note);
+	int noteToNumber(std::string note) const;
 
 	/**
 	 * Computes the given number to its equivalent representive note.
@@ -101,7 +104,7 @@ class NoteLetter {
 	 *          number (1-12) to convert to a note
 	 * @return note representation of the given number.
 	 */
-	std::string numberToNote(int number);
+	std::string numberToNote(int number) const;
 
 
 	/**
@@ -130,14 +133,14 @@ class NoteLetter {
 	 * 
 	 * @return initialized note
 	 */
-	NoteLetterType getNote();
+	NoteLetterType getNote() const;
 
   /**
    * Gets the initialized note as a string
    * 
    * @return initialized note
    */
-   std::string getStringNote();
+   std::string getStringNote() const;
 	
 	/**
 	 * Gets the note which is the given distance from the initialized reference note
@@ -146,7 +149,7 @@ class NoteLetter {
 	 * @throws InvalidNoteException
 	 * @throws InvalidIntervalException 
 	 */
-	NoteLetterType getNote(int distance);
+	NoteLetterType getNote(int distance) const;
 	
 	/**
 	 * Determines if the note letter is null.

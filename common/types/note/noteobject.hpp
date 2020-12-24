@@ -60,14 +60,14 @@ class NoteObject {
    * Gets the octave of the note.
    * @return octave of the note
    */
-  int getOctave();
+  int getOctave() const;
 
   /**
    * Gets the letter value of the note
    * 
    * @return letter value of the note
    */
-   NoteLetter getNoteLetter();
+   NoteLetter getNoteLetter() const;
 	
 	/**
 	 * Gets a description of the value of the note currently set.
@@ -76,7 +76,7 @@ class NoteObject {
 	 *   
 	 * @return string description of the note value
 	 */
-	std::string getBeatName();
+	std::string getBeatName() const;
   
 	/**
 	 * Sets the note instance's beat to a random beat value based off of how many
@@ -93,20 +93,20 @@ class NoteObject {
    * 
    * @return letter value of the note
    */
-   NoteLetterType getNoteType();
+   NoteLetterType getNoteType() const;
   /**
    * Gets the letter type value of the note
    * 
    * @return letter value of the note
    */
-   double getFrequency();
+   double getFrequency() const;
   
 	/**
 	 * Gets the rest value of the note
 	 * 
 	 * @return rest value of the note
 	 */
-	std::string getRestValue();
+	std::string getRestValue() const;
 	
 	/**
 	 * Gets the letter value of a null note
@@ -141,7 +141,7 @@ class NoteObject {
    *<p>
    * See NoteType enum
    */
-	NoteValue getValue();
+	NoteValue getValue() const;
   
 	/**
 	 * Sets the note instance as a note or a rest. 

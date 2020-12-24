@@ -92,14 +92,14 @@ using namespace arias::common::exceptions;
    * Gets the octave of the note.
    * @return octave of the note
    */
-  int NoteObject::getOctave(){ return octave;}
+  int NoteObject::getOctave() const{ return octave;}
 
   /**
    * Gets the letter value of the note
    * 
    * @return letter value of the note
    */
-  NoteLetter NoteObject::getNoteLetter(){ return note_letter; }
+  NoteLetter NoteObject::getNoteLetter() const{ return note_letter; }
 	
 	/**
 	 * Gets a description of the value of the note currently set.
@@ -108,7 +108,7 @@ using namespace arias::common::exceptions;
 	 *   
 	 * @return string description of the note value
 	 */
-	std::string NoteObject::getBeatName(){ return note_value.toString(); }
+	std::string NoteObject::getBeatName() const{ return note_value.toString(); }
   
 	/**
 	 * Sets the note instance's beat to a random beat value based off of how many
@@ -125,20 +125,20 @@ using namespace arias::common::exceptions;
    * 
    * @return letter value of the note
    */
-  NoteLetterType NoteObject::getNoteType(){ return note_letter.getNote(); }
+  NoteLetterType NoteObject::getNoteType() const{ return note_letter.getNote(); }
   /**
    * Gets the letter type value of the note
    * 
    * @return letter value of the note
    */
-  double NoteObject::getFrequency(){ return frequency; }
+  double NoteObject::getFrequency() const{ return frequency; }
   
 	/**
 	 * Gets the rest value of the note
 	 * 
 	 * @return rest value of the note
 	 */
-	std::string NoteObject::getRestValue(){ return "/"; }
+	std::string NoteObject::getRestValue() const{ return "/"; }
 	
 	/**
 	 * Gets the letter value of a null note
@@ -180,7 +180,7 @@ using namespace arias::common::exceptions;
    *<p>
    * See NoteType enum
    */
-   NoteValue NoteObject::getValue(){ return note_value;}
+   NoteValue NoteObject::getValue() const{ return note_value;}
   
 	/**
 	 * Sets the note instance as a note or a rest. 

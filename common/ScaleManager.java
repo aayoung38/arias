@@ -28,7 +28,7 @@ public abstract class ScaleManager {
    * flat note.
    *
    */
-  public ScaleManager(NoteLetterType scale){ 
+  protected ScaleManager(NoteLetterType scale){ 
 	  this.scale = new NoteLetter(scale); 
 	  halfStepsMap = new int[SCALE_NOTES];
   }
@@ -44,7 +44,7 @@ public abstract class ScaleManager {
    *         of flats rather than sharps.
    * @throws InvalidNoteException 
    */
-  public ScaleManager(NoteLetter scale, boolean use_flats) throws InvalidNoteException
+  protected ScaleManager(NoteLetter scale, boolean use_flats) throws InvalidNoteException
   {
   	
     //this.note_utilities = new NoteLetter(scale, use_flats);

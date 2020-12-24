@@ -4,33 +4,21 @@
  * @since       2013-06-09          
  */
 
-package com.ariasproj.common.types.instrument.guitar;
-
-import com.ariasproj.common.exceptions.InvalidNoteException;
-import com.ariasproj.common.types.note.NoteLetterType;
-import com.ariasproj.common.types.note.NoteObject;
-import com.ariasproj.common.types.note.NoteValueType;
-
-
-public class GuitarNote extends NoteObject{
-	
-  private int fret_number;
-  private int string_number;
-  
-  private int NULL_STRING_NUMBER = -1;  
-  private int NULL_FRET_NUMBER = -1;
+#include "guitarnote.hpp";
+//using namespace arias::common::types::note;
+using namespace arias::common::types::instrument::guitar;
 
   /**
    * Constructor
    */
-  public GuitarNote() {
-  	super();
-  	this.string_number = NULL_STRING_NUMBER;
-  	this.fret_number = NULL_FRET_NUMBER;
+  GuitarNote::GuitarNote() {
+  
+  	string_number = NULL_STRING_NUMBER;
+  	fret_number = NULL_FRET_NUMBER;
 	 
   }
   
-  public int getNullStringNumber(){ return NULL_STRING_NUMBER; }
+  int GuitarNote::getNullStringNumber(){ return NULL_STRING_NUMBER; }
 
   /**
    * Constructor
@@ -39,10 +27,10 @@ public class GuitarNote extends NoteObject{
    * @param string_number string number between 1 - 6 to initialize the note with
    * @throws InvalidNoteException 
    */
-  public GuitarNote(NoteLetterType noteLetterType, int octave, int fret_number, int string_number){
-  	super(noteLetterType, octave);
-    this.fret_number = fret_number;
-    this.string_number = string_number;
+   GuitarNote::GuitarNote(note::NoteLetterType noteLetterType, int octave, int fret_number, int string_number){
+  	note::NoteObject(noteLetterType, octave);
+    fret_number = fret_number;
+    string_number = string_number;
   }
   
   /**
@@ -52,15 +40,15 @@ public class GuitarNote extends NoteObject{
    * @param string_number string number between 1 - 6 to initialize the note with
    * @throws InvalidNoteException 
    */
-  public GuitarNote(NoteLetterType note, 
+  GuitarNote::GuitarNote(NoteLetterType note, 
   									int octave, 
   									int fret_number, 
   									int string_number, 
   									NoteValueType beat_number){
   	
-  	super(note, octave, beat_number);
-    this.fret_number = fret_number;
-    this.string_number = string_number;
+  	NoteObject(note, octave, beat_number);
+    fret_number = fret_number;
+    string_number = string_number;
   }
   
   /**
@@ -69,33 +57,33 @@ public class GuitarNote extends NoteObject{
    * @param fret_number fret number between 0 - 21 to initialize the note with
    * @param string_number string number between 1 - 6 to initialize the note with
    */
-  public GuitarNote(GuitarNote note){
-    super();
-    this.note_letter = note.getNoteLetter();
-    this.note_value = note.getValue();
-    this.octave = note.getOctave();
-    this.fret_number = note.getFretNumber();
-    this.string_number = note.getStringNumber();
-    this.frequency = note.getFrequency();
+  GuitarNote::GuitarNote(const GuitarNote & note){
+ 
+    note_letter = note.getNoteLetter();
+    note_value = note.getValue();
+    octave = note.getOctave();
+    fret_number = note.getFretNumber();
+    string_number = note.getStringNumber();
+    frequency = note.getFrequency();
   }
   
   /**
    * Obtains the fret number for the note instance
    * @return fret number
    */
-  public int getFretNumber(){ return this.fret_number; }
+  int GuitarNote::getFretNumber() const{ return fret_number; }
   
   /**
    * Obtains the string number for the note instance
    * @return string number
    */
-  public int getStringNumber(){ return this.string_number; }
+  int GuitarNote::getStringNumber() const{ return string_number; }
   
   /**
    * Obtains the string number for the note instance
    * @return string number
    */
-  public double getFrequency(){ return this.frequency; }
+  double GuitarNote::getFrequency() const{ return frequency; }
   
   /**
    * Assigns the guitar notes positional information on the guitar
@@ -105,11 +93,11 @@ public class GuitarNote extends NoteObject{
    * @param fret_number fret number to change the note position to
    * @param string_number string number to change the note position to
    */
-  public void setNote(int fret_number, int string_number, float frequency)
+  void GuitarNote::setNote(int fret_number, int string_number, float frequency)
   { 
-  	this.fret_number = fret_number; 
-    this.string_number = string_number; 
-    this.frequency = frequency;
+  	fret_number = fret_number; 
+    string_number = string_number; 
+    frequency = frequency;
 
   }
 
@@ -121,16 +109,17 @@ public class GuitarNote extends NoteObject{
    * 
    * @param string_number string number to change the note position to
    */
-  public void setStringNumber(int string_number)
+  void setStringNumber(int string_number)
   { 
-    this.string_number = string_number; 
+    string_number = string_number; 
   }
 
-  public String toString() 
+  std::string GuitarNote::toString() 
   {
-     return "String Number: "+this.string_number + 
-            ", Letter: "+this.note_letter.getNote()+
-            ", Fret Number: " +this.fret_number + "Object: "+super.toString();  
+     return "String Number: "+std::to_string(string_number) + 
+            ", Letter: "+std::to_string(note_letter.getNote())+
+            ", Fret Number: " +std::to_string(fret_number);
+            
+            // + "Object: "+note::.toString();  
   }
   
-}

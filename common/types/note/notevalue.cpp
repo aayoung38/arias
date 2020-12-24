@@ -6,7 +6,6 @@
 
 #include "notevalue.hpp"
 #include "notevaluetype.hpp"
-#include <map>
 #include <vector>
 #include <stdlib.h>
 #include <time.h>
