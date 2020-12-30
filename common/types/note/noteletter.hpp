@@ -4,7 +4,7 @@
  * @since       2013-06-09          
  */
 
-#pragma once;
+#pragma once
 
 // project includes
 #include "invalidnoteexception.hpp"

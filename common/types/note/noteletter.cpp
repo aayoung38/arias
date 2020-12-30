@@ -171,7 +171,7 @@ using namespace arias::common::exceptions;
 	 * @param note
 	 *          note to determine is in sharps or flats.
 	 */
-	bool noteIsFlat(std::string note) {
+	bool NoteLetter::noteIsFlat(std::string note) const {
 
 		return note.length() > 1 && note.at(1) == 'b';
 	}

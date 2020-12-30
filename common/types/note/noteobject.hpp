@@ -3,7 +3,7 @@
  * @version     0.1
  * @since       2013-06-09          
  */
-#pragma once;
+#pragma once
 
 #include "invalidnoteexception.hpp"
 #include "notelettertype.hpp"

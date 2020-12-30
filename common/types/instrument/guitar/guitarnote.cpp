@@ -4,7 +4,7 @@
  * @since       2013-06-09          
  */
 
-#include "guitarnote.hpp";
+#include "guitarnote.hpp"
 //using namespace arias::common::types::note;
 using namespace arias::common::types::instrument::guitar;
 

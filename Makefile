@@ -1,25 +1,44 @@
 
-.PHONY = all clean
+.PHONY = all clean obj
 
 CC = g++
-
+CFLAGS = -c
 LINKERFLAG = -l
+INCLUDEFLAG = -I
+OUTPUTFLAG = -o
 
-SRCS := $(wildcard *.cpp)
-BINS := $(SRCS:%.cpp%)
+NOTEDIR=common/types/note
+GUITARDIR=common/types/instrument/guitar
+EXCEPTIONDIR=common/exceptions
+PLATFORMDIR=platform/linux
 
-all: ${BINS}
+INCDIRS= $(INCLUDEFLAG) $(NOTEDIR) $(INCLUDEFLAG) $(GUITARDIR) $(INCLUDEFLAG) $(EXCEPTIONDIR)
 
-%: %.o
-	@echo "Checking..."
-	${CC} ${LINKERFLAG} $< -o $@
-	
+noteobjs = $(NOTEDIR)/notevalue.o $(NOTEDIR)/noteobject.o $(NOTEDIR)/noteletter.o $(NOTEDIR)/noteinterval.o
+guitarobjs = $(GUITARDIR)/guitarnote.o $(GUITARDIR)/guitarstring.o $(GUITARDIR)/guitar.o
+platformobjs = $(PLATFORMDIR)/main.o
+
+all: $(noteobjs) $(guitarobjs) $(platformobjs)
+
+
+deps := $(patsubst %.o,%.d,$(noteobjs)) 
+
+# Tell the current Makefile to read onje or more other Makefiles before continuing
+-include $(deps)
+DEPFLAGS= -MMD -MF $(@:.o=.d)
+
+arias: $(PLATFORMDIR)/main.o $(NOTEDIR)/noteobject.o $(NOTEDIR)/noteletter.o $(NOTEDIR)/notevalue.o 
+	g++ $^ -o arias
+
+#obj:
+#	mkdir $(OBJDIR)
+
 %.o: %.cpp
-	@echo "Creating object..."
-	${CC} -c $<
-	
+	@echo $@
+	$(CC) $(CFLAGS) $(INCDIRS)/ $< $(DEPFLAGS) $(OUTPUTFLAG) $@
+
 clean:
 	@echo "Cleaning up..."
-	rm  -rvf *.o ${BINS}
-	
+	find . -name "*.d" -type f -delete
+	find . -name "*.o" -type f -delete
   
