@@ -89,10 +89,10 @@ public class Guitar {
    * @param note
    * @return global number on the
    */
-  private int getGlobalNoteNumber(GuitarNote note){
+   int Guitar::getGlobalNoteNumber(GuitarNote note){
   	
-  	final int notes_between_strings = 5;
-  	final int notes_between_g_string = 4;
+  	 int notes_between_strings = 5;
+  	 int notes_between_g_string = 4;
   	
   	int global_number = 0;
   	
@@ -180,7 +180,7 @@ public class Guitar {
   			if (closest_note.getStringNumber() == GuitarString.G_STRING )
   				fret_difference = 4;
   
-  			closest_note = this.getNote(closest_note.getStringNumber() + 1,
+  			closest_note = getNote(closest_note.getStringNumber() + 1,
   																  closest_note.getFretNumber() - fret_difference);
   		}
   	}
@@ -192,7 +192,7 @@ public class Guitar {
   			if (closest_note.getStringNumber() == GuitarString.B_STRING )
   				fret_difference = 4;
   			  
-          closest_note = this.getNote(closest_note.getStringNumber() -1,
+          closest_note = getNote(closest_note.getStringNumber() -1,
           														closest_note.getFretNumber() + fret_difference);
   			
   		}

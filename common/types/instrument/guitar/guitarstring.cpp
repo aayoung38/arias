@@ -26,18 +26,15 @@ using namespace arias::common::types::instrument::guitar;
    * @param num_frets number of frets the guitar string has
    * @throws InvalidNoteException 
    */
-  GuitarString::GuitarString(int string_number, int num_frets){
+  GuitarString::GuitarString(int string_number){
     
-    num_frets = num_frets;
     determine_base_note_info(string_number);
-    
-    frets = new GuitarNote*[num_frets];
-    
+      
     int octave = base_note->getOctave();
     
     NoteLetter note_letter = NoteLetter(base_note->getNoteType());
     
-    for (int fret_number = 0; fret_number < num_frets; fret_number++){
+    for (int fret_number = 0; fret_number < GUITAR_FRETS; fret_number++){
       
       NoteLetterType letter;
       
@@ -52,12 +49,12 @@ using namespace arias::common::types::instrument::guitar;
    if (letter == NoteLetterType::C)
     octave ++;
       frets[fret_number] = 
-         new GuitarNote
+        std::make_unique<GuitarNote>
+          (GuitarNote
             (letter,
              octave,
              fret_number, 
-             string_number);
-      
+             string_number));
    
     }
       
@@ -83,26 +80,26 @@ using namespace arias::common::types::instrument::guitar;
   void GuitarString::determine_base_note_info(int string_number){
     switch(string_number){
       case LOW_E_STRING: 
-        base_note = new GuitarNote(NoteLetterType::E,2,OPEN_FRET_NUM,LOW_E_STRING);
+        base_note = std::make_unique<GuitarNote>(GuitarNote(NoteLetterType::E,2,OPEN_FRET_NUM,LOW_E_STRING));
         break;
       case A_STRING: 
-        base_note = new GuitarNote(NoteLetterType::A, 2, OPEN_FRET_NUM, A_STRING);
+        base_note = std::make_unique<GuitarNote>( GuitarNote(NoteLetterType::A, 2, OPEN_FRET_NUM, A_STRING));
         break;
       case D_STRING: 
-        base_note = new GuitarNote(NoteLetterType::D, 3, OPEN_FRET_NUM, D_STRING);
+        base_note = std::make_unique<GuitarNote>( GuitarNote(NoteLetterType::D, 3, OPEN_FRET_NUM, D_STRING));
         break;
       case G_STRING: 
-        base_note = new GuitarNote(NoteLetterType::G, 3, OPEN_FRET_NUM, G_STRING);
+        base_note = std::make_unique<GuitarNote>( GuitarNote(NoteLetterType::G, 3, OPEN_FRET_NUM, G_STRING));
         break;
       case B_STRING: 
-        base_note = new GuitarNote(NoteLetterType::B, 3, OPEN_FRET_NUM, B_STRING);
+        base_note = std::make_unique<GuitarNote>(GuitarNote(NoteLetterType::B, 3, OPEN_FRET_NUM, B_STRING));
         break;
       case HIGH_E_STRING: 
-        base_note = new GuitarNote(NoteLetterType::E, 3, OPEN_FRET_NUM, HIGH_E_STRING);
+        base_note = std::make_unique<GuitarNote>( GuitarNote(NoteLetterType::E, 3, OPEN_FRET_NUM, HIGH_E_STRING));
         break;
       default:
 
-        base_note = new GuitarNote(NoteLetterType::NULL_NOTE,-1000,-1,-1);
+        base_note = std::make_unique<GuitarNote>(  GuitarNote(NoteLetterType::NULL_NOTE,-1000,-1,-1) );
         break;
     }
   }
@@ -118,7 +115,7 @@ using namespace arias::common::types::instrument::guitar;
    * Gets the number of frets mapped to the string
    * @return number of frets mapped to the string
    */
-  int GuitarString::getNumberFrets() const{ return num_frets; }
+  int GuitarString::getNumberFrets() const{ return GUITAR_FRETS; }
  
   /**
    * Gets the value of the open note on the string

@@ -12,6 +12,8 @@
 #include "notelettertype.hpp"
 #include "noteobject.hpp"
 #include "notevaluetype.hpp"
+#include <memory>
+#include <vector>
 
 using namespace arias::common::types::note;
 
@@ -48,7 +50,7 @@ class GuitarString {
    * @param num_frets number of frets the guitar string has
    * @throws InvalidNoteException 
    */
-   GuitarString(int string_number, int num_frets);
+   GuitarString(int string_number);
   
   /**
    * Determines the open note information based on the given string number
@@ -90,9 +92,10 @@ class GuitarString {
 
 
 	private:
-      GuitarNote **frets;
-      int num_frets;
-      GuitarNote *base_note;
+
+      static constexpr std::uint8_t GUITAR_FRETS   = 22;
+      std::array< std::unique_ptr<GuitarNote>, GUITAR_FRETS> frets;
+      std::unique_ptr<GuitarNote> base_note;
       static constexpr int OPEN_FRET_NUM = 0;
   
 };
