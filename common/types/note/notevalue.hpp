@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include <iostream>
 #include <map>
 #include <string.h>
 #include "notevaluetype.hpp"
@@ -36,7 +37,7 @@ class NoteValue {
 		 */
 		void setRandomValue(float beats_left);
 
-		std::string toString() const;
+    friend std::ostream& operator << (std::ostream& os, const NoteValue& g);
   
   protected:
 
@@ -51,11 +52,6 @@ class NoteValue {
 	  std::map<NoteValueType, float> noteMapInfo;
     NoteValueType n_value;
 	
-	  /**
-     * Initializes the note value map by mapping the note type to the number of
-     * beats the value has. 
-     */
-    void initializeNoteMap();
 };
 
 } // note 

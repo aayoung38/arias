@@ -12,6 +12,7 @@
 #include "notelettertype.hpp"
 
 // std library includes
+#include <iostream>
 #include <memory>
 #include <string>
 
@@ -37,6 +38,7 @@ class NoteLetter {
 
     NoteLetter() = default;
     NoteLetter(NoteLetterType note);
+    NoteLetter(const NoteLetter& note);
 	
     static NoteLetter getNoteLetter(bool useFlats);
 
@@ -135,12 +137,6 @@ class NoteLetter {
      */
     NoteLetterType getNote() const;
 
-    /**
-     * Gets the initialized note as a string
-     * 
-     * @return initialized note
-     */
-    const std::string & getStringNote() const;
     
     /**
      * Gets the note which is the given distance from the initialized reference note
@@ -157,6 +153,12 @@ class NoteLetter {
      */
     bool isNull() const;
 	
+    NoteLetter& operator=(const NoteLetter & note);
+
+    /**
+     * Outputs the object to standard output
+     */
+	  friend std::ostream & operator << (std::ostream &, const NoteLetter & note);
 
   protected:
     static const std::string NULL_VAL;
@@ -170,7 +172,7 @@ class NoteLetter {
       
 	  static constexpr int NUM_AVAILABLE_NOTES = 12;
 
-  	std::unique_ptr<std::array<std::string,NUM_AVAILABLE_NOTES>> working_notes;
+  	std::shared_ptr<std::array<std::string,NUM_AVAILABLE_NOTES>> working_notes;
 
 	  /**
 	   * [C,  C#,  D,  D#,  E,  F,  F#,  G,  G#, A,  A#, B]
@@ -189,6 +191,12 @@ class NoteLetter {
 
     NoteLetter(bool useFlats);
 
+    /**
+     * Gets the initialized note as a string
+     * 
+     * @return initialized note
+     */
+    //const std::string & getStringNote() const;
 };
 
 }

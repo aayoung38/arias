@@ -13,24 +13,15 @@ using namespace arias::common::types::note;
 
 NoteValue::NoteValue(NoteValueType value) : n_value(value)
 {
-	initializeNoteMap();
-
-	// initialize random number
-	srand(time(NULL));
-}
-
-/**
- * Initializes the note value map by mapping the note type to the number of
- * beats the value has. 
- */
-void NoteValue::initializeNoteMap()
-{
 	noteMapInfo[NoteValueType::WHOLE] = WHOLE_NOTE_VALUE;
 	noteMapInfo[NoteValueType::HALF] = HALF_NOTE_VALUE;
 	noteMapInfo[NoteValueType::QUARTER] = QUARTER_NOTE_VALUE;
 	noteMapInfo[NoteValueType::EIGHTH] = EIGHTH_NOTE_VALUE;
 	noteMapInfo[NoteValueType::SIXTEENTH] = SIXTEENTH_NOTE_VALUE;
 	noteMapInfo[NoteValueType::NONE] = NULL_NOTE_VALUE;
+
+	// initialize random number
+	srand(time(NULL));
 }
 
 NoteValueType NoteValue::getType() const{ return n_value; }
@@ -66,9 +57,19 @@ void NoteValue::setRandomValue(float beats_left)
 	n_value = beat_list.at(rand()% beat_list.size());
 
 }
-	
-std::string NoteValue::toString() const
+
+namespace arias{
+namespace common{
+namespace types{
+namespace note{
+std::ostream& operator <<(std::ostream & os, const NoteValue & note) 
 {
-	return "Type: "+std::to_string(n_value)+", Value: "+std::to_string(getBeats());
+	os << "Type: " << note.n_value 
+     << ", Value: " << std::to_string(note.getBeats());
+
+  return os;
 }
-  
+}
+}
+}
+}

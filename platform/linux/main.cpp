@@ -3,12 +3,12 @@
 using namespace std;
 using namespace arias::common::types::note;
 
-
-
 int main(){
 
     NoteObject o;
-    cout << "Test\n" << o.getBeatName()<<"\n";
+    NoteObject n (NoteLetterType::D_SHARP, 0, true);
+
+    cout << "Test\n" << o<<"\n"<<n<<"\n";
 
     return 0;
 }

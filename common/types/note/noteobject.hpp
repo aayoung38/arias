@@ -9,6 +9,7 @@
 #include "notelettertype.hpp"
 #include "notevalue.hpp"
 #include "noteletter.hpp"
+#include <iostream>
 #include <stdlib.h>
 #include <math.h>
 
@@ -19,11 +20,11 @@ namespace note{
 
 class NoteObject {
 
-	
-  /**
-   * Default constructor
-   */
   public:
+    
+    /**
+    * Default constructor
+    */
     NoteObject();
 
     /**
@@ -66,17 +67,8 @@ class NoteObject {
      * 
      * @return letter value of the note
      */
-    const NoteLetter & getNoteLetter() const;
-    
-    /**
-     * Gets a description of the value of the note currently set.
-     * <p>
-     * See NoteValue
-     *   
-     * @return string description of the note value
-     */
-    std::string getBeatName() const;
-    
+    const NoteLetter & getLetter() const;
+        
     /**
      * Sets the note instance's beat to a random beat value based off of how many
      * beats are left over in the measure. 
@@ -149,17 +141,15 @@ class NoteObject {
     void selectRestOrNote();
   
     /**
-     * Converts the class to string
-     * @return string representation of the class
+     * Outputs the object to standard output
      */
-    std::string toString();
-	
+	  friend std::ostream & operator << (std::ostream &, const NoteObject & note);
 
   protected:
     const int NUMBER_NOTES = NoteLetter::getNumberNotes();
     static constexpr int  NULL_OCTAVE = -1000;
-    NoteValue note_value;
-    NoteLetter note_letter;
+    NoteValue value;
+    NoteLetter letter;
     int octave;
 
     double frequency;

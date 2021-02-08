@@ -45,7 +45,7 @@ NoteLetter::NoteLetter(NoteLetterType note)
   use_flats = noteIsFlat(reference_note);
   
   working_notes = 
-    std::make_unique<std::array<std::string,NUM_AVAILABLE_NOTES>>
+    std::make_shared<std::array<std::string,NUM_AVAILABLE_NOTES>>
     ( use_flats ? AVAILABLE_NOTES_FLAT : AVAILABLE_NOTES_SHARP);
   try{
     reference_note_number = noteToNumber(reference_note);
@@ -55,6 +55,14 @@ NoteLetter::NoteLetter(NoteLetterType note)
   }
   
 }
+
+
+NoteLetter::NoteLetter(const NoteLetter& note) : reference_note_type(note.reference_note_type), 
+                                                 reference_note(note.reference_note), 
+                                                 use_flats(note.use_flats), 
+                                                 reference_note_number(note.reference_note_number),
+                                                 working_notes(note.working_notes){}
+
 NoteLetter::NoteLetter(bool useFlats) : use_flats(useFlats)
 {
 }
@@ -198,9 +206,9 @@ bool NoteLetter::noteIsFlat(const std::string & note) const
 int NoteLetter::noteToNumber(const std::string & note) const
 {
 
-  std::shared_ptr<std::array<std::string,NUM_AVAILABLE_NOTES>> working_scale = 
-    std::make_shared<std::array<std::string,NUM_AVAILABLE_NOTES>>
-    ( noteIsFlat(note) ? AVAILABLE_NOTES_FLAT : AVAILABLE_NOTES_SHARP);
+  //std::shared_ptr<std::array<std::string,NUM_AVAILABLE_NOTES>> working_scale = 
+  //  std::make_shared<std::array<std::string,NUM_AVAILABLE_NOTES>>
+  //  ( noteIsFlat(note) ? AVAILABLE_NOTES_FLAT : AVAILABLE_NOTES_SHARP);
 
   int tmp_scale_number = 0;
 
@@ -257,7 +265,7 @@ std::string NoteLetter::numberToNote(int number, bool useFlats)
  */
 int NoteLetter::getDistance(const NoteLetter & note)
 {
-  int tmp_note = noteToNumber(note.getStringNote());
+  int tmp_note = noteToNumber(note.reference_note);
   
   if (tmp_note >= reference_note_number) 
   {
@@ -281,7 +289,7 @@ NoteLetterType NoteLetter::getNote() const{ return reference_note_type; }
  * 
  * @return initialized note
  */
-const std::string & NoteLetter::getStringNote() const{ return reference_note; }
+//const std::string & NoteLetter::getStringNote() const{ return reference_note; }
 	
 /**
  * Gets the note which is the given distance from the initialized reference note
@@ -325,3 +333,30 @@ bool NoteLetter::isNull() const
   return reference_note_type == NoteLetterType::NULL_NOTE;
 }
 	
+NoteLetter& NoteLetter::operator=(const NoteLetter& note){
+  reference_note_type = note.reference_note_type;
+  reference_note = note.reference_note;
+  use_flats = note.use_flats;
+  reference_note_number = note.reference_note_number;
+  working_notes = note.working_notes;
+  return *this;
+}
+
+namespace arias{
+namespace common{
+namespace types{
+namespace note{
+std::ostream& operator <<(std::ostream & os, const NoteLetter & note) 
+{
+  os << "Type: " << note.reference_note_type 
+     << ", Value: " << note.reference_note
+     << ", Number: " << note.reference_note_number
+     << ", Use Flats: " << note.use_flats
+     << ", Is Null: " << note.isNull();
+
+  return os;
+}
+}
+}
+}
+}

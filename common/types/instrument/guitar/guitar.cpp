@@ -89,7 +89,7 @@ using namespace arias::common::types::instrument::guitar;
    * By default the class uses sharps unless the root note specified is a
    * flat note.
 	 */
-   GuitarNote Guitar::getClosestNote(GuitarNote reference_note, GuitarNote generated_note){}
+   GuitarNote Guitar::getClosestNote(GuitarNote reference_note, GuitarNote generated_note){ return GuitarNote();}
   
   
   /**
@@ -99,7 +99,7 @@ using namespace arias::common::types::instrument::guitar;
    * @return <Class>Guitar_Note</Class> of a the random note, its fret, and 
    * 				 string. 
    */
-   GuitarNote Guitar::getRandomNote(){}
+   GuitarNote Guitar::getRandomNote(){return GuitarNote();}
   
   
   /**

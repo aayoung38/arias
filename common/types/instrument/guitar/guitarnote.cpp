@@ -27,7 +27,8 @@ using namespace arias::common::types::instrument::guitar;
    * @param string_number string number between 1 - 6 to initialize the note with
    * @throws InvalidNoteException 
    */
-   GuitarNote::GuitarNote(note::NoteLetterType noteLetterType, int octave, int fret_number, int string_number){
+   GuitarNote::GuitarNote(note::NoteLetterType noteLetterType, int octave, int fret_number, int string_number)
+   {
   	note::NoteObject(noteLetterType, octave);
     fret_number = fret_number;
     string_number = string_number;
@@ -44,7 +45,8 @@ using namespace arias::common::types::instrument::guitar;
   									int octave, 
   									int fret_number, 
   									int string_number, 
-  									NoteValueType beat_number){
+  									NoteValueType beat_number)                  
+  {
   	
   	NoteObject(note, octave, beat_number);
     fret_number = fret_number;
