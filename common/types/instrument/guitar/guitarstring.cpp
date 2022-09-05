@@ -121,5 +121,5 @@ using namespace arias::common::types::instrument::guitar;
    * Gets the value of the open note on the string
    * @return value of the open note on the string
    */
-  NoteLetter GuitarString::getBaseStringLetter(){ return base_note->getNoteLetter(); }
+  NoteLetter GuitarString::getBaseStringLetter(){ return base_note->getLetter(); }
   

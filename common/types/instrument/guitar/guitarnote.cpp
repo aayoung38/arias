@@ -61,8 +61,8 @@ using namespace arias::common::types::instrument::guitar;
    */
   GuitarNote::GuitarNote(const GuitarNote & note){
  
-    note_letter = note.getNoteLetter();
-    note_value = note.getValue();
+    letter = note.getLetter();
+    value = note.getValue();
     octave = note.getOctave();
     fret_number = note.getFretNumber();
     string_number = note.getStringNumber();
@@ -119,7 +119,8 @@ using namespace arias::common::types::instrument::guitar;
   std::string GuitarNote::toString() 
   {
      return "String Number: "+std::to_string(string_number) + 
-            ", Letter: "+std::to_string(note_letter.getNote())+
+            ", Letter: "+std::to_string(letter.getNote())+
+            ", Value: "+std::to_string(value.getBeats())+
             ", Fret Number: " +std::to_string(fret_number);
             
             // + "Object: "+note::.toString();  

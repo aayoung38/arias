@@ -1,0 +1,10 @@
+*.d
+*.o
+*.swp
+*arias*
+*.sqlite
+*.log
+*.vsidx
+*.db
+*.suo
+*.lock

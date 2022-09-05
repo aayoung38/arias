@@ -213,7 +213,7 @@ int NoteLetter::noteToNumber(const std::string & note) const
   int tmp_scale_number = 0;
 
   for (; tmp_scale_number < NUM_AVAILABLE_NOTES
-      && (*working_scale)[tmp_scale_number] != note; tmp_scale_number++)
+      && (*working_notes)[tmp_scale_number] != note; tmp_scale_number++)
     ;
 
   if (tmp_scale_number >= NUM_AVAILABLE_NOTES )
