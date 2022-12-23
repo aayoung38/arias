@@ -6,6 +6,7 @@
 #pragma once
 
 #include "invalidnoteexception.hpp"
+#include "instrumenttypes.hpp"
 #include "notelettertype.hpp"
 #include "notevalue.hpp"
 #include "noteletter.hpp"
@@ -18,14 +19,14 @@ namespace common{
 namespace types{
 namespace note{
 
-class NoteObject {
+class Note {
 
   public:
     
     /**
     * Default constructor
     */
-    NoteObject();
+    Note();
 
     /**
     * Constructor 
@@ -34,7 +35,7 @@ class NoteObject {
     * @param octave octave to initialize the note to
     * @throws InvalidNoteException 
     */
-    NoteObject(NoteLetterType note, int octave);
+    Note(NoteLetterType note, InstrumentOctave o);
   
     /**
      * Constructor 
@@ -43,7 +44,7 @@ class NoteObject {
      * @param octave octave to initialize the note to
      * @throws InvalidNoteException 
      */
-    NoteObject(NoteLetterType note, int octave, bool isRest);
+    Note(NoteLetterType note, InstrumentOctave o, bool isRest);
   
     /**
      * Constructor 
@@ -53,7 +54,7 @@ class NoteObject {
      * @param note_value note value to initialize the note to, see NoteValue enum
      * @throws InvalidNoteException 
      */
-    NoteObject(NoteLetterType note, int octave, NoteValueType note_value);
+    Note(NoteLetterType note, InstrumentOctave o, NoteValueType v);
 
     
     /**
@@ -104,7 +105,7 @@ class NoteObject {
      * 
      * @return letter value of a null note
      */
-    static NoteObject getNullNote();
+    static Note getNullNote();
   
   
     /**
@@ -134,7 +135,7 @@ class NoteObject {
     NoteValue getValue() const;
   
 	/**
-	 * Sets the note instance as a note or a rest. 
+	 * Randomly sets the note instance as a note or a rest. 
 	 * <p>
 	 * There is a 25% chance of the note being a rest.
 	 */
@@ -143,14 +144,14 @@ class NoteObject {
     /**
      * Outputs the object to standard output
      */
-	  friend std::ostream & operator << (std::ostream &, const NoteObject & note);
+	  friend std::ostream & operator << (std::ostream &, const Note & note);
 
   protected:
     const int NUMBER_NOTES = NoteLetter::getNumberNotes();
-    static constexpr int  NULL_OCTAVE = -1000;
+    static constexpr InstrumentOctave  NULL_OCTAVE = InstrumentOctave(-1000);
     NoteValue value;
     NoteLetter letter;
-    int octave;
+    InstrumentOctave octave;
 
     double frequency;
     

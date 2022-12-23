@@ -9,6 +9,7 @@
 #include "noteletter.hpp"
 #include "guitarnote.hpp"
 #include "guitarstring.hpp"
+#include "instrumenttypes.hpp"
 #include <iostream>
 #include <memory>
 
@@ -27,6 +28,9 @@ class Guitar {
    * Constructor for the <class>Guitar</class>
    */
   public:
+    static constexpr InstrumentFret GUITAR_FRETS   = 22;
+    static constexpr InstrumentString GUITAR_STRINGS = 6;
+
     Guitar();
   
   /**
@@ -36,7 +40,7 @@ class Guitar {
    * @param fret_number fret number of the guitar note to get
    * @return <class>GuitarNote</class> for the given string and fret number 
    */
-   const GuitarNote & getNote(int string_num, int fret_number);
+   const GuitarNote & getNote(InstrumentString string_num, InstrumentFret fret_number);
   
   /**
    * Gets a random string from the initialized guitar object
@@ -71,7 +75,7 @@ class Guitar {
    * @param reference_note note to determine is the lower note of the two
    * @return true if the reference note is the lower note and false otherwise
    */
-   bool referenceIsLower(GuitarNote lowest_note, GuitarNote reference_note);
+   bool operator <(GuitarNote note);
 
   
 	/**
@@ -82,7 +86,7 @@ class Guitar {
    * @param  a first of two notes to compare
    * @param  b second of two notes to compare
 	 */
-   bool notesAreSame(GuitarNote a, GuitarNote b);
+   bool operator==(GuitarNote note);
   
   
 	/**
@@ -108,21 +112,6 @@ class Guitar {
    */
    GuitarNote getRandomNote();
   
-  
-  /**
-   * Gets the number of frets supported by the class.
-   * @return number of strings supported by the class
-   */
-  std::uint8_t getNumStrings();
-  
-  
-  /**
-   * Gets the number of frets supported by the class.
-   * @return number of frets supported by the class
-   */
-  std::uint8_t getNumFrets();
-  
-  
   /**
    * Gets the string representation of the class.
    * @return string representation of the class.
@@ -131,8 +120,6 @@ class Guitar {
   friend std::ostream& operator << (std::ostream& os, const Guitar& g);
 
   protected:
-    static constexpr std::uint8_t GUITAR_FRETS   = 22;
-    static constexpr std::uint8_t GUITAR_STRINGS = 6;
 
     std::array<std::unique_ptr<GuitarString>,GUITAR_STRINGS> strings;
     //GuitarString **strings;

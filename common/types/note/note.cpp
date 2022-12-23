@@ -4,7 +4,7 @@
  * @since       2013-06-09          
  */
 
-#include "noteobject.hpp"
+#include "note.hpp"
 #include "invalidnoteexception.hpp"
 #include <stdlib.h>
 #include <iostream>
@@ -14,15 +14,8 @@ using namespace arias::common::exceptions;
 /**
  * Default constructor
  */
-NoteObject::NoteObject()
-{
-  value = NoteValue(NoteValueType::WHOLE);
-  letter = NoteLetter(NoteLetterType::NULL_NOTE);
-  
-  octave = NULL_OCTAVE;
-  
-  frequency = 0.0;
-  
+Note::Note() : value (NoteValueType::WHOLE), letter(NoteLetterType::NULL_NOTE), octave(NULL_OCTAVE), frequency(0.0)
+{  
   // by default treat every new note as a non-rest note.
   note_is_rest = false;
 }  
@@ -34,16 +27,12 @@ NoteObject::NoteObject()
  * @param octave octave to initialize the note to
  * @throws InvalidNoteException 
  */
-NoteObject::NoteObject(NoteLetterType note, int octave)
-{
-  value = NoteValue(NoteValueType::WHOLE);
-  letter = NoteLetter(note);
-  
-  octave = octave;
+Note::Note(NoteLetterType n, InstrumentOctave o) : letter(n), octave(o), value (NoteValueType::WHOLE), frequency(0.0)
+{  
   computeFrequency();
   
   // by default treat every new note as a non-rest note.
-  note_is_rest = false; 
+  note_is_rest = false;   
 }
   
 /**
@@ -53,12 +42,9 @@ NoteObject::NoteObject(NoteLetterType note, int octave)
  * @param octave octave to initialize the note to
  * @throws InvalidNoteException 
  */
-NoteObject::NoteObject(NoteLetterType note, int octave, bool isRest)
+Note::Note(NoteLetterType n, InstrumentOctave o, bool isRest) : letter(n), octave(o), value (NoteValueType::WHOLE), frequency(0.0)
 {
-  value = NoteValue(NoteValueType::WHOLE);
-  letter = NoteLetter(note);
-  
-  this->octave = octave;
+
   computeFrequency();
   
   // by default treat every new note as a non-rest note.
@@ -73,13 +59,8 @@ NoteObject::NoteObject(NoteLetterType note, int octave, bool isRest)
  * @param note_value note value to initialize the note to, see NoteValue enum
  * @throws InvalidNoteException 
  */
-NoteObject::NoteObject(NoteLetterType letter, int octave, NoteValueType value)
+Note::Note(NoteLetterType n, InstrumentOctave o, NoteValueType v) : value(v), letter(n), octave(o), frequency(0.0)
 {
-  this->value = NoteValue(value);
-  this->letter = NoteLetter(letter);
-  
-  this->octave = octave;
-
   computeFrequency();
   
   // by default treat every new note as a non-rest note.
@@ -90,14 +71,14 @@ NoteObject::NoteObject(NoteLetterType letter, int octave, NoteValueType value)
  * Gets the octave of the note.
  * @return octave of the note
  */
-int NoteObject::getOctave() const{ return octave;}
+int Note::getOctave() const{ return octave;}
 
 /**
  * Gets the letter value of the note
  * 
  * @return letter value of the note
  */
-const NoteLetter & NoteObject::getLetter() const{ return letter; }
+const NoteLetter & Note::getLetter() const{ return letter; }
   
 /**
  * Sets the note instance's beat to a random beat value based off of how many
@@ -107,42 +88,42 @@ const NoteLetter & NoteObject::getLetter() const{ return letter; }
  * random selection
  * @param beats_left how many beats are left in a given measure of music
  */
-void NoteObject::setRandomBeat(float beats_left){value.setRandomValue(beats_left);}
+void Note::setRandomBeat(float beats_left){value.setRandomValue(beats_left);}
 
 /**
  * Gets the letter type value of the note
  * 
  * @return letter value of the note
  */
-NoteLetterType NoteObject::getNoteType() const{ return letter.getNote(); }
+NoteLetterType Note::getNoteType() const{ return letter.getNote(); }
 /**
  * Gets the letter type value of the note
  * 
  * @return letter value of the note
  */
-double NoteObject::getFrequency() const{ return frequency; }
+double Note::getFrequency() const{ return frequency; }
   
 /**
  * Gets the rest value of the note
  * 
  * @return rest value of the note
  */
-std::string NoteObject::getRestValue() const{ return "/"; }
+std::string Note::getRestValue() const{ return "/"; }
 
 /**
  * Gets the letter value of a null note
  * 
  * @return letter value of a null note
  */
-NoteObject NoteObject::getNullNote() 
+Note Note::getNullNote() 
 {
-  return NoteObject(NoteLetterType::NULL_NOTE, NULL_OCTAVE,true); 
+  return Note(NoteLetterType::NULL_NOTE, NULL_OCTAVE,true); 
 }
   
 /**
  * Sets the note information to null.
  */
-void NoteObject::setNull() 
+void Note::setNull() 
 { 
   letter = NoteLetter(NoteLetterType::NULL_NOTE); 
   value = NoteValue(NoteValueType::NONE);
@@ -154,27 +135,27 @@ void NoteObject::setNull()
  * 
  * @return True if the note is null and False otherwise
  */
-bool NoteObject::isNull() const { return letter.isNull(); }
+bool Note::isNull() const { return letter.isNull(); }
 
 /**
  * Determines if the note is a rest
  * @return True if the note is a rest and False otherwise
  */
-bool NoteObject::isRest() const { return note_is_rest; }
+bool Note::isRest() const { return note_is_rest; }
   
 /**
  * Gets the type of the note 
  *<p>
  * See NoteType enum
  */
-NoteValue NoteObject::getValue() const{ return value;}
+NoteValue Note::getValue() const{ return value;}
   
 /**
  * Sets the note instance as a note or a rest. 
  * <p>
  * There is a 25% chance of the note being a rest.
  */
-void NoteObject::selectRestOrNote()
+void Note::selectRestOrNote()
 {
   note_is_rest = (rand() % 100) <= 25;
 }
@@ -184,7 +165,7 @@ void NoteObject::selectRestOrNote()
  * <p>
  * See NoteType for types
  */
-void NoteObject::setRandomBeatVal()
+void Note::setRandomBeatVal()
 {
 
   int beat_val = rand() % 4;
@@ -225,7 +206,7 @@ void NoteObject::setRandomBeatVal()
  * @throws InvalidNoteException 
  *   
  */
-void NoteObject::computeFrequency()
+void Note::computeFrequency()
 {
   
   try
@@ -262,7 +243,7 @@ namespace note{
  * Converts the class to string
  * @return string representation of the class
  */
-std::ostream & operator << (std::ostream & os, const NoteObject & note)
+std::ostream & operator << (std::ostream & os, const Note & note)
 { 
   os << "Value = [" << note.value <<"]"
      << ", Letter = [" << note.letter <<"]"

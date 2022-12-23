@@ -26,15 +26,15 @@ using namespace arias::common::types::instrument::guitar;
    * @param num_frets number of frets the guitar string has
    * @throws InvalidNoteException 
    */
-  GuitarString::GuitarString(int string_number){
+  GuitarString::GuitarString(InstrumentString string_number){
     
     determine_base_note_info(string_number);
       
-    int octave = base_note->getOctave();
+    InstrumentOctave octave = base_note->getOctave();
     
     NoteLetter note_letter = NoteLetter(base_note->getNoteType());
     
-    for (int fret_number = 0; fret_number < GUITAR_FRETS; fret_number++){
+    for (InstrumentFret fret_number = 0; fret_number < GUITAR_FRETS; fret_number++){
       
       NoteLetterType letter;
       
@@ -77,7 +77,7 @@ using namespace arias::common::types::instrument::guitar;
    * @param string_number
    * @return
    */
-  void GuitarString::determine_base_note_info(int string_number){
+  void GuitarString::determine_base_note_info(InstrumentString string_number){
     switch(string_number){
       case LOW_E_STRING: 
         base_note = std::make_unique<GuitarNote>(GuitarNote(NoteLetterType::E,2,OPEN_FRET_NUM,LOW_E_STRING));
@@ -99,7 +99,7 @@ using namespace arias::common::types::instrument::guitar;
         break;
       default:
 
-        base_note = std::make_unique<GuitarNote>(  GuitarNote(NoteLetterType::NULL_NOTE,-1000,-1,-1) );
+        base_note = std::make_unique<GuitarNote>(  GuitarNote(NoteLetterType::NULL_NOTE,InstrumentOctave(-1000),-1,-1) );
         break;
     }
   }
@@ -109,17 +109,27 @@ using namespace arias::common::types::instrument::guitar;
    * @param fret_number fret number to get the note for 
    * @return guitar note mapped to the fret number on the string
    */
-  const GuitarNote & GuitarString::getNoteElement(int fret_number) const{ return *(frets[fret_number]); }
-  
-  /**
-   * Gets the number of frets mapped to the string
-   * @return number of frets mapped to the string
-   */
-  int GuitarString::getNumberFrets() const{ return GUITAR_FRETS; }
- 
+  const GuitarNote & GuitarString::getNoteElement(InstrumentFret fret_number) const{ return *(frets[fret_number]); }
+   
   /**
    * Gets the value of the open note on the string
    * @return value of the open note on the string
    */
   NoteLetter GuitarString::getBaseStringLetter(){ return base_note->getLetter(); }
   
+namespace arias{
+namespace common{
+namespace types{
+namespace instrument{
+namespace guitar{
+/**
+ * Converts the class to string
+ * @return string representation of the class
+ */
+std::ostream & operator << (std::ostream & os, const GuitarString & string)
+{
+
+     os << "Base note: " << string.base_note << endl;
+     return os;
+  }
+}}}}}

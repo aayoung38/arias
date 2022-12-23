@@ -13,7 +13,7 @@ using namespace arias::common::types::instrument::guitar;
    */
     Guitar::Guitar()
     {
-        for (int i=0; i< GUITAR_STRINGS; i++)
+        for (InstrumentString i=0; i< GUITAR_STRINGS; i++)
         {
           strings[i] = std::make_unique<GuitarString>(GuitarString(i));
         }
@@ -26,7 +26,7 @@ using namespace arias::common::types::instrument::guitar;
    * @param fret_number fret number of the guitar note to get
    * @return <class>GuitarNote</class> for the given string and fret number 
    */
-   const GuitarNote & Guitar::getNote(int string_num, int fret_number)
+   const GuitarNote & Guitar::getNote(InstrumentString string_num, InstrumentFret fret_number)
    { 
     return strings[string_num]->getNoteElement(fret_number);
    }
@@ -35,14 +35,14 @@ using namespace arias::common::types::instrument::guitar;
    * Gets a random string from the initialized guitar object
    * @return
    */
-  std::uint8_t Guitar::getRandomString(){return 0;}
+  InstrumentString Guitar::getRandomString(){return 0;}
   
   /**
    * Gets a random fret number between 0 and the number of supported guitar
    * frets.
    * @return integer between 0 and <code>GUITAR_FRETS</code>
    */
-  std::uint8_t Guitar::getRandomFret(){return 0;}
+  InstrumentFret Guitar::getRandomFret(){return 0;}
   
   
   /**
@@ -64,7 +64,8 @@ using namespace arias::common::types::instrument::guitar;
    * @param reference_note note to determine is the lower note of the two
    * @return true if the reference note is the lower note and false otherwise
    */
-   bool Guitar::referenceIsLower(GuitarNote lowest_note, GuitarNote reference_note){return false;}
+   //bool Guitar::referenceIsLower(GuitarNote lowest_note, GuitarNote reference_note){return false;}
+   bool Guitar::operator<(GuitarNote note){return false;}
 
   
 	/**
@@ -75,7 +76,8 @@ using namespace arias::common::types::instrument::guitar;
    * @param  a first of two notes to compare
    * @param  b second of two notes to compare
 	 */
-   bool Guitar::notesAreSame(GuitarNote a, GuitarNote b){return false;}
+   //bool Guitar::notesAreSame(GuitarNote a, GuitarNote b){return false;}
+   bool Guitar::operator==(GuitarNote note){return false;}
   
   
 	/**
@@ -100,21 +102,6 @@ using namespace arias::common::types::instrument::guitar;
    * 				 string. 
    */
    GuitarNote Guitar::getRandomNote(){return GuitarNote();}
-  
-  
-  /**
-   * Gets the number of frets supported by the class.
-   * @return number of strings supported by the class
-   */
-  std::uint8_t Guitar::getNumStrings(){ return 0;}
-  
-  
-  /**
-   * Gets the number of frets supported by the class.
-   * @return number of frets supported by the class
-   */
-  std::uint8_t Guitar::getNumFrets(){ return 0;}
-  
   
   /**
    * Gets the string representation of the class.

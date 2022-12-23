@@ -10,24 +10,7 @@
 using namespace arias::common::types::note;
 using namespace arias::common::exceptions;
 	 
-/**
- * [C,  C#,  D,  D#,  E,  F,  F#,  G,  G#, A,  A#, B]
- * <p>
- * [1,  2,   3,  4,   5,  6,  7,   8,  9,  10, 11, 12]
- */
-const std::array<std::string, NoteLetter::NUM_AVAILABLE_NOTES> NoteLetter::AVAILABLE_NOTES_SHARP = 
-	{ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#","A", "A#", "B" };
-
-/**
- * <p>
- * [C, Db, D, Eb, E, F, Fb, G, Ab, A, Bb, B]
- * <p>
- * [1, 2,  3, 4,  5, 6, 7,  8, 9,  10,11, 12]
- */
-const std::array<std::string, NoteLetter::NUM_AVAILABLE_NOTES> NoteLetter::AVAILABLE_NOTES_FLAT = 
-	{ "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab","A", "Bb", "B" };
-
-const std::string NoteLetter::NULL_VAL = "-";
+bool NoteLetter::use_flats = false;
 
 /**
  * Constructor for the <Class>Note_Utilities</Class> class.
@@ -38,57 +21,7 @@ const std::string NoteLetter::NULL_VAL = "-";
  *          note to initialize the class to.
  * @throws InvalidNoteException 
  */
-NoteLetter::NoteLetter(NoteLetterType note)
-{
-  reference_note_type = note;
-  reference_note = typeToNote(reference_note_type);
-  use_flats = noteIsFlat(reference_note);
-  
-  working_notes = 
-    std::make_shared<std::array<std::string,NUM_AVAILABLE_NOTES>>
-    ( use_flats ? AVAILABLE_NOTES_FLAT : AVAILABLE_NOTES_SHARP);
-  try{
-    reference_note_number = noteToNumber(reference_note);
-  }
-  catch (InvalidNoteException e){
-    reference_note_number = -1;
-  }
-  
-}
-
-
-NoteLetter::NoteLetter(const NoteLetter& note) : reference_note_type(note.reference_note_type), 
-                                                 reference_note(note.reference_note), 
-                                                 use_flats(note.use_flats), 
-                                                 reference_note_number(note.reference_note_number),
-                                                 working_notes(note.working_notes){}
-
-NoteLetter::NoteLetter(bool useFlats) : use_flats(useFlats)
-{
-}
-
-NoteLetter NoteLetter::getNoteLetter(bool useFlats) {return NoteLetter(useFlats);}
-
-/**
- * Constructor for the <Class>Note_Utilities</Class> class.
- * 
- * @param reference_note
- *          note to initialize the class to. The note is represented as a
- *          number.
- */
-NoteLetter::NoteLetter(int note) 
-{
-    reference_note_type = NoteLetterType::NULL_NOTE;
-    reference_note = typeToNote(reference_note_type);
-  use_flats = false;
-  
-  // this can be ultimately determined....
-  working_notes = 
-    std::make_unique<std::array<std::string,NUM_AVAILABLE_NOTES>>
-    (AVAILABLE_NOTES_FLAT);
-  
-  reference_note_number = note;
-}
+NoteLetter::NoteLetter(const NoteLetter& note) : reference_note(note.reference_note){}
 
 /**
  * Constructor for the <Class>Note_Utilities</Class> class.
@@ -100,25 +33,17 @@ NoteLetter::NoteLetter(int note)
  *          of flats rather than sharps.
  * @throws InvalidNoteException 
  */
-NoteLetter::NoteLetter(NoteLetterType note, bool use_flats) : 
-    reference_note_type(note),
-    use_flats(use_flats)
-{
-  reference_note = typeToNote(reference_note_type);
-  
-  working_notes = 
-    std::make_unique<std::array<std::string,NUM_AVAILABLE_NOTES>>
-    ( use_flats ? AVAILABLE_NOTES_FLAT : AVAILABLE_NOTES_SHARP);
-
-  try
-  {
-    reference_note_number = noteToNumber(reference_note);
-  }
-  catch (InvalidNoteException e)
-  {
-    reference_note_number = -1;
-  }
+NoteLetter::NoteLetter(NoteLetterType note) : reference_note(note)
+{  
 }
+
+NoteLetter NoteLetter::getNoteLetter() {return NoteLetter();}
+
+void NoteLetter::useFlats(bool use_flats)
+{
+  NoteLetter::use_flats = use_flats;
+}
+
 
 /**
  * Returns the number of notes supported by the application
@@ -134,33 +59,37 @@ int NoteLetter::getNumberNotes(){ return NoteLetterType::NULL_NOTE;}
  * 
  * @return string representation of the given type
  */
-std::string NoteLetter::typeToNote(NoteLetterType note) const
+std::string NoteLetter::getStringNote() const
 {
-  switch (note)
+  if (use_flats)
   {
-    case C:         return "C";
-    case C_SHARP:   return "C#";
-    case D_FLAT:    return "Db";
-    case D:         return "D";
-    case D_SHARP:   return "D#";
-    case E_FLAT:    return "Eb";
-    case E:         return "E";
-    case F:         return "F";
-    case F_SHARP:   return "F#";
-    case G_FLAT:    return "Gb";
-    case G:         return "G";
-    case G_SHARP:   return "G#";
-    case A_FLAT:    return "Ab";
-    case A:         return "A";
-    case A_SHARP:   return "A#";
-    case B_FLAT:    return "Bb";
-    case B:         return "B";
-    case NULL_NOTE: return NULL_VAL;
-    default:        return NULL_VAL;
+    if (reference_note == D_FLAT) return "Db";
+    if (reference_note == E_FLAT) return "Eb";
+    if (reference_note == G_FLAT) return "Gb";
+    if (reference_note == A_FLAT) return "Ab";
+    if (reference_note == B_FLAT) return "Bb";
+
   }
+  else
+  {
+    if (reference_note == C_SHARP) return "C#";
+    if (reference_note == D_SHARP) return "D#";
+    if (reference_note == F_SHARP) return "F#";
+    if (reference_note == G_SHARP) return "G#";
+    if (reference_note == A_SHARP) return "A#";
+  }
+  if (reference_note == C) return "C";
+  if (reference_note == D) return "D";
+  if (reference_note == E) return "E";
+  if (reference_note == F) return "F";
+  if (reference_note == G) return "G";
+  if (reference_note == A) return "A";
+  if (reference_note == B) return "B";
+
+  return "-";
 }
   
-NoteLetterType NoteLetter::noteToType(const std::string & note) const
+NoteLetterType NoteLetter::getNoteLetter(const std::string & note)
 {
   if (note == "C") return NoteLetterType::C;
   if (note ==  "C#") return NoteLetterType::C_SHARP;
@@ -184,76 +113,6 @@ NoteLetterType NoteLetter::noteToType(const std::string & note) const
 }
 
 /**
- * Determines if the given note is in terms of flats or sharps
- * <p>
- * By default it is assumed that the note is in terms of sharps.
- * 
- * @param note
- *          note to determine is in sharps or flats.
- */
-bool NoteLetter::noteIsFlat(const std::string & note) const 
-{
-  return note.length() > 1 && note.at(1) == 'b';
-}
-
-/**
- * Computes the given note to its equivalent representive number.
- * 
- * @param note
- *          valid note between A-G to convert to its internal number
- * @return note representation of the given number.
- */
-int NoteLetter::noteToNumber(const std::string & note) const
-{
-
-  //std::shared_ptr<std::array<std::string,NUM_AVAILABLE_NOTES>> working_scale = 
-  //  std::make_shared<std::array<std::string,NUM_AVAILABLE_NOTES>>
-  //  ( noteIsFlat(note) ? AVAILABLE_NOTES_FLAT : AVAILABLE_NOTES_SHARP);
-
-  int tmp_scale_number = 0;
-
-  for (; tmp_scale_number < NUM_AVAILABLE_NOTES
-      && (*working_notes)[tmp_scale_number] != note; tmp_scale_number++)
-    ;
-
-  if (tmp_scale_number >= NUM_AVAILABLE_NOTES )
-  {
-    throw InvalidNoteException();
-  }
-  return tmp_scale_number;
-}
-
-/**
- * Computes the given number to its equivalent representive note.
- * 
- * @param number
- *          number (1-12) to convert to a note
- * @return note representation of the given number.
- */
-std::string NoteLetter::numberToNote(int number) const
-{
-  return numberToNote(number,use_flats);
-}
-
-/**
- * Computes the given number to its equivalent representive note.
- * 
- * @param number
- *          number (1-12) to convert to a note
- * @return note representation of the given number.
- */
-std::string NoteLetter::numberToNote(int number, bool useFlats) 
-{
-  std::shared_ptr<std::array<std::string,NUM_AVAILABLE_NOTES>> scale = 
-    std::make_shared<std::array<std::string,NUM_AVAILABLE_NOTES>>
-    ( useFlats ? AVAILABLE_NOTES_FLAT : AVAILABLE_NOTES_SHARP);
-
-  int available_notes_num = number % NUM_AVAILABLE_NOTES;
-
-  return (*scale)[available_notes_num];
-}
-
-/**
  * Gets the note distance from the reference note in terms of half steps.
  * <p>
  * Treats the reference note as the lower note.
@@ -265,15 +124,14 @@ std::string NoteLetter::numberToNote(int number, bool useFlats)
  */
 int NoteLetter::getDistance(const NoteLetter & note)
 {
-  int tmp_note = noteToNumber(note.reference_note);
   
-  if (tmp_note >= reference_note_number) 
+  if (note.reference_note >= reference_note) 
   {
-    return tmp_note - reference_note_number;
+    return note.reference_note - reference_note;
   }
   else 
   {
-    return (NUM_AVAILABLE_NOTES - reference_note_number) + tmp_note;
+    return (NUM_AVAILABLE_NOTES - reference_note) + note.reference_note;
   }
 }
 
@@ -282,15 +140,8 @@ int NoteLetter::getDistance(const NoteLetter & note)
  * 
  * @return initialized note
  */
-NoteLetterType NoteLetter::getNote() const{ return reference_note_type; }
+NoteLetterType NoteLetter::getNote() const{ return reference_note; }
 
-/**
- * Gets the initialized note as a string
- * 
- * @return initialized note
- */
-//const std::string & NoteLetter::getStringNote() const{ return reference_note; }
-	
 /**
  * Gets the note which is the given distance from the initialized reference note
  * @param distance distance from the reference note in half steps
@@ -304,23 +155,17 @@ NoteLetterType NoteLetter::getNote(int distance) const
     throw InvalidIntervalException();
   }
   
-  if (reference_note_number < 0){
-    throw InvalidNoteException();
-  }
   
   //int octave = distance / working_notes.length;
   int local_distance = distance % NUM_AVAILABLE_NOTES;
   
-  int total_half_note_distance = reference_note_number + local_distance;
+  int total_half_note_distance = reference_note + local_distance;
   
   if (total_half_note_distance >= NUM_AVAILABLE_NOTES)
-    return noteToType
-              (numberToNote
-                  (total_half_note_distance % NUM_AVAILABLE_NOTES));
+    return NoteLetterType(total_half_note_distance % NUM_AVAILABLE_NOTES);
   
   else
-    return noteToType
-              (numberToNote(total_half_note_distance));
+    return NoteLetterType(total_half_note_distance);
 
 }
 	
@@ -330,15 +175,11 @@ NoteLetterType NoteLetter::getNote(int distance) const
  */
 bool NoteLetter::isNull() const
 {
-  return reference_note_type == NoteLetterType::NULL_NOTE;
+  return reference_note == NoteLetterType::NULL_NOTE;
 }
 	
 NoteLetter& NoteLetter::operator=(const NoteLetter& note){
-  reference_note_type = note.reference_note_type;
   reference_note = note.reference_note;
-  use_flats = note.use_flats;
-  reference_note_number = note.reference_note_number;
-  working_notes = note.working_notes;
   return *this;
 }
 
@@ -348,10 +189,9 @@ namespace types{
 namespace note{
 std::ostream& operator <<(std::ostream & os, const NoteLetter & note) 
 {
-  os << "Type: " << note.reference_note_type 
-     << ", Value: " << note.reference_note
-     << ", Number: " << note.reference_note_number
-     << ", Use Flats: " << note.use_flats
+  os << "Type: " << note.reference_note 
+     << ", Value: " << note.getStringNote()
+     << ", Use Flats: " << NoteLetter::use_flats
      << ", Is Null: " << note.isNull();
 
   return os;

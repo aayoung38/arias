@@ -7,11 +7,11 @@
 
 #pragma once
 
-#include "invalidnoteexception.hpp"
 #include "guitarnote.hpp"
 #include "notelettertype.hpp"
-#include "noteobject.hpp"
+#include "note.hpp"
 #include "notevaluetype.hpp"
+#include "instrumenttypes.hpp"
 #include <memory>
 #include <vector>
 
@@ -25,7 +25,6 @@ namespace guitar{
 
 class GuitarString {
 
-  
   public:
     static constexpr int LOW_E_STRING = 0;
     static constexpr int A_STRING = 1;
@@ -33,6 +32,8 @@ class GuitarString {
     static constexpr int G_STRING = 3;
     static constexpr int B_STRING = 4;
     static constexpr int HIGH_E_STRING = 5;
+
+    static constexpr InstrumentFret GUITAR_FRETS   = 22;
 
   /**
    * Constructor
@@ -50,7 +51,7 @@ class GuitarString {
    * @param num_frets number of frets the guitar string has
    * @throws InvalidNoteException 
    */
-   GuitarString(int string_number);
+   GuitarString(InstrumentString string_number);
   
   /**
    * Determines the open note information based on the given string number
@@ -69,31 +70,25 @@ class GuitarString {
    * @param string_number
    * @return
    */
-   void determine_base_note_info(int string_number);
+   void determine_base_note_info(InstrumentString string_number);
     
   /**
    * Gets the <Class>GuitarNote</Class> mapped to the fret number on the string
    * @param fret_number fret number to get the note for 
    * @return guitar note mapped to the fret number on the string
    */
-   const GuitarNote & getNoteElement(int fret_number) const;
-  
-  /**
-   * Gets the number of frets mapped to the string
-   * @return number of frets mapped to the string
-   */
-   int getNumberFrets() const;
- 
+   const GuitarNote & getNoteElement(InstrumentFret fret_number) const;
+   
   /**
    * Gets the value of the open note on the string
    * @return value of the open note on the string
    */
    NoteLetter getBaseStringLetter();
 
+	 friend std::ostream & operator << (std::ostream &, const GuitarString & note);
 
 	private:
 
-      static constexpr std::uint8_t GUITAR_FRETS   = 22;
       std::array< std::unique_ptr<GuitarNote>, GUITAR_FRETS> frets;
       std::unique_ptr<GuitarNote> base_note;
       static constexpr int OPEN_FRET_NUM = 0;

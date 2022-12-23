@@ -7,14 +7,15 @@ LINKERFLAG = -l
 INCLUDEFLAG = -I
 OUTPUTFLAG = -o
 
+COMMONTYPES=common/types
 NOTEDIR=common/types/note
 GUITARDIR=common/types/instrument/guitar
 EXCEPTIONDIR=common/exceptions
 PLATFORMDIR=platform/linux
 
-INCDIRS= $(INCLUDEFLAG) $(NOTEDIR) $(INCLUDEFLAG) $(GUITARDIR) $(INCLUDEFLAG) $(EXCEPTIONDIR)
+INCDIRS= $(INCLUDEFLAG) $(COMMONTYPES) $(INCLUDEFLAG) $(NOTEDIR) $(INCLUDEFLAG) $(GUITARDIR) $(INCLUDEFLAG) $(EXCEPTIONDIR) $(INCLUDEFLAG) common
 
-noteobjs = $(NOTEDIR)/notevalue.o $(NOTEDIR)/noteobject.o $(NOTEDIR)/noteletter.o $(NOTEDIR)/noteinterval.o
+noteobjs = $(NOTEDIR)/notevalue.o $(NOTEDIR)/note.o $(NOTEDIR)/noteletter.o $(NOTEDIR)/noteinterval.o
 guitarobjs = $(GUITARDIR)/guitarnote.o $(GUITARDIR)/guitarstring.o $(GUITARDIR)/guitar.o
 platformobjs = $(PLATFORMDIR)/main.o
 
@@ -27,7 +28,7 @@ deps := $(patsubst %.o,%.d,$(noteobjs))
 -include $(deps)
 DEPFLAGS= -MMD -MF $(@:.o=.d)
 
-arias: $(PLATFORMDIR)/main.o $(NOTEDIR)/noteobject.o $(NOTEDIR)/noteletter.o $(NOTEDIR)/notevalue.o 
+arias: $(PLATFORMDIR)/main.o ${noteobjs} $(guitarobjs) common/audiogenerator.o
 	g++ $^ -o arias
 
 #obj:

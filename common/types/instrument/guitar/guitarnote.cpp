@@ -11,14 +11,14 @@ using namespace arias::common::types::instrument::guitar;
   /**
    * Constructor
    */
-  GuitarNote::GuitarNote() {
+  GuitarNote::GuitarNote(){
   
   	string_number = NULL_STRING_NUMBER;
   	fret_number = NULL_FRET_NUMBER;
 	 
   }
   
-  int GuitarNote::getNullStringNumber(){ return NULL_STRING_NUMBER; }
+  InstrumentString GuitarNote::getNullStringNumber(){ return NULL_STRING_NUMBER; }
 
   /**
    * Constructor
@@ -27,12 +27,11 @@ using namespace arias::common::types::instrument::guitar;
    * @param string_number string number between 1 - 6 to initialize the note with
    * @throws InvalidNoteException 
    */
-   GuitarNote::GuitarNote(note::NoteLetterType noteLetterType, int octave, int fret_number, int string_number)
+   GuitarNote::GuitarNote(note::NoteLetterType l, InstrumentOctave o, InstrumentFret f, InstrumentString s) : Note(l,o), fret_number(f), string_number(s)     
+     
    {
-  	note::NoteObject(noteLetterType, octave);
-    fret_number = fret_number;
-    string_number = string_number;
-  }
+    
+   }
   
   /**
    * Constructor
@@ -41,16 +40,12 @@ using namespace arias::common::types::instrument::guitar;
    * @param string_number string number between 1 - 6 to initialize the note with
    * @throws InvalidNoteException 
    */
-  GuitarNote::GuitarNote(NoteLetterType note, 
-  									int octave, 
-  									int fret_number, 
-  									int string_number, 
-  									NoteValueType beat_number)                  
+  GuitarNote::GuitarNote(NoteLetterType letter, 
+  									InstrumentOctave o, 
+  									InstrumentFret f, 
+  									InstrumentString s, 
+  									NoteValueType beat) : Note(letter,o,beat), fret_number(f), string_number(s)             
   {
-  	
-  	NoteObject(note, octave, beat_number);
-    fret_number = fret_number;
-    string_number = string_number;
   }
   
   /**
@@ -73,13 +68,13 @@ using namespace arias::common::types::instrument::guitar;
    * Obtains the fret number for the note instance
    * @return fret number
    */
-  int GuitarNote::getFretNumber() const{ return fret_number; }
+  InstrumentFret GuitarNote::getFretNumber() const{ return fret_number; }
   
   /**
    * Obtains the string number for the note instance
    * @return string number
    */
-  int GuitarNote::getStringNumber() const{ return string_number; }
+  InstrumentString GuitarNote::getStringNumber() const{ return string_number; }
   
   /**
    * Obtains the string number for the note instance
@@ -95,11 +90,11 @@ using namespace arias::common::types::instrument::guitar;
    * @param fret_number fret number to change the note position to
    * @param string_number string number to change the note position to
    */
-  void GuitarNote::setNote(int fret_number, int string_number, float frequency)
+  void GuitarNote::setNote(InstrumentFret fret_number, InstrumentString string_number, float frequency)
   { 
-  	fret_number = fret_number; 
-    string_number = string_number; 
-    frequency = frequency;
+  	this->fret_number = fret_number; 
+    this->string_number = string_number; 
+    this->frequency = frequency;
 
   }
 
@@ -111,18 +106,31 @@ using namespace arias::common::types::instrument::guitar;
    * 
    * @param string_number string number to change the note position to
    */
-  void setStringNumber(int string_number)
+  void GuitarNote::setStringNumber(InstrumentString string_number)
   { 
-    string_number = string_number; 
+    this->string_number = string_number; 
   }
 
-  std::string GuitarNote::toString() 
-  {
-     return "String Number: "+std::to_string(string_number) + 
-            ", Letter: "+std::to_string(letter.getNote())+
-            ", Value: "+std::to_string(value.getBeats())+
-            ", Fret Number: " +std::to_string(fret_number);
-            
-            // + "Object: "+note::.toString();  
+
+namespace arias{
+namespace common{
+namespace types{
+namespace instrument{
+namespace guitar{
+/**
+ * Converts the class to string
+ * @return string representation of the class
+ */
+std::ostream & operator << (std::ostream & os, const GuitarNote & note)
+{
+
+  
+     os << "String Number: " << unsigned(note.string_number) 
+        << ", Fret Number: " << unsigned(note.fret_number)
+        << ", Fret letter: " << note.letter
+        << ", Object: " << Note(note);
+
+        return os;
   }
+}}}}}
   

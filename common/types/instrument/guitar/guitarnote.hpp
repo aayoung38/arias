@@ -8,8 +8,9 @@
 
 #include "invalidnoteexception.hpp"
 #include "notelettertype.hpp"
-#include "noteobject.hpp"
+#include "note.hpp"
 #include "notevaluetype.hpp"
+#include "instrumenttypes.hpp"
 
 using namespace arias::common::types::note;
 
@@ -19,7 +20,7 @@ namespace types{
 namespace instrument{
 namespace guitar{
 
-class GuitarNote : public NoteObject{
+class GuitarNote : public Note{
 
 	public:
 
@@ -28,7 +29,7 @@ class GuitarNote : public NoteObject{
    */
   GuitarNote();
   
-  int getNullStringNumber();
+  static InstrumentString getNullStringNumber();
 
   /**
    * Constructor
@@ -37,7 +38,7 @@ class GuitarNote : public NoteObject{
    * @param string_number string number between 1 - 6 to initialize the note with
    * @throws InvalidNoteException 
    */
-   GuitarNote(NoteLetterType noteLetterType, int octave, int fret_number, int string_number);
+   GuitarNote(NoteLetterType noteLetterType, InstrumentOctave octave, InstrumentFret fret_number, InstrumentString string_number);
 
   /**
    * Constructor
@@ -47,9 +48,9 @@ class GuitarNote : public NoteObject{
    * @throws InvalidNoteException 
    */
    GuitarNote(NoteLetterType note, 
-  			int octave, 
-  			int fret_number, 
-  			int string_number, 
+  			InstrumentOctave octave, 
+  			InstrumentFret fret_number, 
+  			InstrumentString string_number, 
   			NoteValueType beat_number);
   
   /**
@@ -64,13 +65,13 @@ class GuitarNote : public NoteObject{
    * Obtains the fret number for the note instance
    * @return fret number
    */
-   int getFretNumber() const;
+   InstrumentFret getFretNumber() const;
   
   /**
    * Obtains the string number for the note instance
    * @return string number
    */
-   int getStringNumber() const;
+   InstrumentString getStringNumber() const;
   
   /**
    * Obtains the string number for the note instance
@@ -86,7 +87,7 @@ class GuitarNote : public NoteObject{
    * @param fret_number fret number to change the note position to
    * @param string_number string number to change the note position to
    */
-   void setNote(int fret_number, int string_number, float frequency);
+   void setNote(InstrumentFret fret_number, InstrumentString string_number, float frequency);
 
   /**
    * Assigns the guitar note's string number 
@@ -96,17 +97,17 @@ class GuitarNote : public NoteObject{
    * 
    * @param string_number string number to change the note position to
    */
-   void setStringNumber(int string_number);
+   void setStringNumber(InstrumentString string_number);
 
-   std::string toString();
+	 friend std::ostream & operator << (std::ostream &, const GuitarNote & note);
 
    private:
 
-   int fret_number;
-   int string_number;
+   InstrumentFret fret_number;
+   InstrumentString string_number;
   
-   static constexpr int NULL_STRING_NUMBER = -1;  
-   static constexpr int NULL_FRET_NUMBER = -1;
+   static constexpr InstrumentString NULL_STRING_NUMBER = -1;  
+   static constexpr InstrumentFret NULL_FRET_NUMBER = -1;
   
 };
 }

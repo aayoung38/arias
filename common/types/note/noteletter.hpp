@@ -24,7 +24,6 @@ namespace note{
 
 class NoteLetter {
 	 
-
 	/**
 	 * Constructor for the <Class>Note_Utilities</Class> class.
 	 * <p>
@@ -40,28 +39,9 @@ class NoteLetter {
     NoteLetter(NoteLetterType note);
     NoteLetter(const NoteLetter& note);
 	
-    static NoteLetter getNoteLetter(bool useFlats);
+    static NoteLetter getNoteLetter();
 
-    /**
-     * Constructor for the <Class>Note_Utilities</Class> class.
-     * 
-     * @param reference_note
-     *          note to initialize the class to. The note is represented as a
-     *          number.
-     */
-    NoteLetter(int note);
-
-    /**
-     * Constructor for the <Class>Note_Utilities</Class> class.
-     * 
-     * @param reference_note
-     *          note to determine is in sharps or flats.
-     * @param use_flats
-     *          boolean to indicate desire to represents applicable notes in terms
-     *          of flats rather than sharps.
-     * @throws InvalidNoteException 
-     */
-    NoteLetter(NoteLetterType note, bool use_flats);
+    static void useFlats(bool use_flats);
 
     /**
      * Returns the number of notes supported by the application
@@ -70,54 +50,6 @@ class NoteLetter {
      */
     static int getNumberNotes();
     
-    /**
-     * Converts the given <Enum>NoteLetterType</Enum> to letter
-     * 
-     * @param type letter to convert to string
-     * 
-     * @return string representation of the given type
-     */
-    std::string typeToNote(NoteLetterType note) const;
-    
-    NoteLetterType noteToType(const std::string & note) const;
-    
-    /**
-     * Determines if the given note is in terms of flats or sharps
-     * <p>
-     * By default it is assumed that the note is in terms of sharps.
-     * 
-     * @param note
-     *          note to determine is in sharps or flats.
-     */
-    bool noteIsFlat(const std::string & note) const;
-
-    /**
-     * Computes the given note to its equivalent representive number.
-     * 
-     * @param note
-     *          valid note between A-G to convert to its internal number
-     * @return note representation of the given number.
-     */
-    int noteToNumber(const std::string & note) const;
-
-    /**
-     * Computes the given number to its equivalent representive note.
-     * 
-     * @param number
-     *          number (1-12) to convert to a note
-     * @return note representation of the given number.
-     */
-    std::string numberToNote(int number) const;
-
-    /**
-     * Computes the given number to its equivalent representive note.
-     * 
-     * @param number
-     *          number (1-12) to convert to a note
-     * @return note representation of the given number.
-     */
-    static std::string numberToNote(int number, bool useFlats);
-
     /**
      * Gets the note distance from the reference note in terms of half steps.
      * <p>
@@ -137,7 +69,6 @@ class NoteLetter {
      */
     NoteLetterType getNote() const;
 
-    
     /**
      * Gets the note which is the given distance from the initialized reference note
      * @param distance distance from the reference note in half steps
@@ -162,41 +93,25 @@ class NoteLetter {
 
   protected:
     static const std::string NULL_VAL;
+    
+    /**
+     * Converts the given <Enum>NoteLetterType</Enum> to letter
+     * 
+     * @param type letter to convert to string
+     * 
+     * @return string representation of the given type
+     */
+    std::string getStringNote() const;
+    
+    static NoteLetterType getNoteLetter(const std::string & note);
 
   private:
 
-    bool use_flats;
-	  int reference_note_number;
-	  std::string reference_note;
-	  NoteLetterType reference_note_type;
+	  NoteLetterType reference_note;
       
+    static bool use_flats;
 	  static constexpr int NUM_AVAILABLE_NOTES = 12;
 
-  	std::shared_ptr<std::array<std::string,NUM_AVAILABLE_NOTES>> working_notes;
-
-	  /**
-	   * [C,  C#,  D,  D#,  E,  F,  F#,  G,  G#, A,  A#, B]
-	   * <p>
-	   * [1,  2,   3,  4,   5,  6,  7,   8,  9,  10, 11, 12]
-	   */
-	  static const std::array<std::string,NUM_AVAILABLE_NOTES> AVAILABLE_NOTES_SHARP;
-
-	  /**
-	   * <p>
-	   * [C, Db, D, Eb, E, F, Fb, G, Ab, A, Bb, B]
-	   * <p>
-	   * [1, 2,  3, 4,  5, 6, 7,  8, 9,  10,11, 12]
-	   */
-	  static const std::array<std::string,NUM_AVAILABLE_NOTES> AVAILABLE_NOTES_FLAT;
-
-    NoteLetter(bool useFlats);
-
-    /**
-     * Gets the initialized note as a string
-     * 
-     * @return initialized note
-     */
-    //const std::string & getStringNote() const;
 };
 
 }
