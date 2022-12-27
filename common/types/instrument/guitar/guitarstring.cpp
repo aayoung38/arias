@@ -129,7 +129,7 @@ namespace guitar{
 std::ostream & operator << (std::ostream & os, const GuitarString & string)
 {
 
-     os << "Base note: " << string.base_note << endl;
+     os << "Base note: " << *(string.base_note) << std::endl;
      return os;
   }
 }}}}}
