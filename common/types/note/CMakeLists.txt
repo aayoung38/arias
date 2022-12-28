@@ -1,11 +1,14 @@
 add_library(
-    notelib
+    noteapi
     noteinterval.cpp
     noteletter.cpp
     notevalue.cpp
 )
 
-target_include_directories(notelib PUBLIC
+target_include_directories(noteapi PUBLIC
     ../../exceptions
     .
 )
+
+install(TARGETS noteapi
+        LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX})
