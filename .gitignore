@@ -8,5 +8,5 @@
 *.db
 *.suo
 *.lock
-.vscode/c_cpp_properties.json
+.vscode/
 build/
