@@ -1,2 +1,2 @@
-# core-source
-Core source for project code (non-test)
+# arias
+Repository for the Arias music generation project.
