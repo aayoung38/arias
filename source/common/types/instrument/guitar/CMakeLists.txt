@@ -6,9 +6,9 @@ add_library(
 )
 message(STATUS "${TYPES_DIR}")
 target_include_directories(guitarapi PUBLIC
-${ARIAS_TYPES_DIR}
-    ../../note
-    ../../../exceptions
+    ${ARIAS_TYPES}
+    ${ARIAS_NOTE_TYPES}
+    ${ARIAS_EXCEPTIONS}
     .
 )
 
