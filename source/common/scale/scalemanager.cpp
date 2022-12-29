@@ -4,21 +4,13 @@
  * @since       2013-06-09          
  */
 
-package com.ariasproj.common;
 
-import java.util.LinkedList;
-import java.util.Random;
+#include "scalemanager.hpp"
+#include "invalidnoteexception.hpp"
+#include "chordtype.hpp"
+using namespace arias::common;
+#include <vector>
 
-import com.ariasproj.common.exceptions.InvalidNoteException;
-import com.ariasproj.common.types.note.NoteLetter;
-import com.ariasproj.common.types.note.NoteLetterType;
-
-public abstract class ScaleManager {
-	
-  protected NoteLetter scale;
-  protected static final int SCALE_NOTES = 8;
-  protected int [] halfStepsMap;
- 
   /**
    * Constructor for the Scale_Manager class
    *
@@ -28,9 +20,10 @@ public abstract class ScaleManager {
    * flat note.
    *
    */
-  protected ScaleManager(NoteLetterType scale){ 
-	  this.scale = new NoteLetter(scale); 
-	  halfStepsMap = new int[SCALE_NOTES];
+  ScaleManager::ScaleManager(NoteLetterType scale){ 
+
+    distribution = std::uniform_int_distribution<int> (1, SCALE_NOTES);
+	  this->scale = NoteLetter(scale); 
   }
 
   /**
@@ -44,11 +37,11 @@ public abstract class ScaleManager {
    *         of flats rather than sharps.
    * @throws InvalidNoteException 
    */
-  protected ScaleManager(NoteLetter scale, boolean use_flats) throws InvalidNoteException
+  ScaleManager::ScaleManager(NoteLetter scale, bool use_flats)
   {
   	
     //this.note_utilities = new NoteLetter(scale, use_flats);
-	  this.scale = scale;
+	  this->scale = scale;
   }
   
   /**
@@ -60,7 +53,7 @@ public abstract class ScaleManager {
    *         in a higher octave.
    * @return a number in half steps from the root.
    */
-  public int toHalfSteps(int interval) { 
+  int ScaleManager::toHalfSteps(InstrumentOctave interval) const { 
 		
       return interval < 9 && interval > 0 ? halfStepsMap[interval-1] : 0; }
   
@@ -76,26 +69,27 @@ public abstract class ScaleManager {
    * @throws InvalidNoteException 
    * @see    String
    */
-  public String getChord(int interval) throws InvalidNoteException
+  Chord ScaleManager::getChord(InstrumentOctave interval) const
   {
 	
     int scale_interval = interval % SCALE_NOTES; 
-    String chord = "";
-    
-    String computed_note = 
-        this.scale.numberToNote( toHalfSteps(scale_interval));
-	
+       
+    NoteLetterType note = 
+        scale.getNote( toHalfSteps(scale_interval));
+	  ChordType _chord; 
     switch(interval){
 	    case 2: case 3: case 6: 
-	      chord = "min";
+	      _chord = Minor;
 	      break;
 	    case 7: 
-	      chord = "dim";
+	      _chord = Diminished;
 	      break;
 	    default:
+	      _chord = Major;
 	      break;
     }
-    return computed_note + chord;
+
+    return Chord(note, _chord);
 	
   }
 
@@ -107,7 +101,7 @@ public abstract class ScaleManager {
    * @return relative scale of the initialized note.
    * 
    */
-  public String getRelativeScale() { return ""; }
+  Chord ScaleManager::getRelativeScale() { return Chord(); }
   
   /**
    * Gets the note in the interval of the initialized root note.
@@ -117,13 +111,13 @@ public abstract class ScaleManager {
    * @throws InvalidNoteException 
    * 
    */
-  public String getNote(int interval) throws InvalidNoteException
+  NoteLetterType ScaleManager::getNote(InstrumentOctave interval) const
   {
 	
     //int octave = interval / SCALE_NOTES;
     int scale_interval = interval % SCALE_NOTES; 
         
-    return this.scale.numberToNote
+    return scale.getNote
             ( toHalfSteps(scale_interval));
 	
   }
@@ -133,12 +127,10 @@ public abstract class ScaleManager {
    * 
    * @return random interval
    */
-  public int getRandomInterval()
+  InstrumentOctave ScaleManager::getRandomInterval()
   {
-
-    Random generator = new Random();
-    
-    return generator.nextInt(SCALE_NOTES) + 1;
+   
+    return distribution(generator);
     
   }
 
@@ -148,24 +140,23 @@ public abstract class ScaleManager {
    * @param num_random_chords number of random chords needed to be generated
    * @return list of random chords
    */
-  public LinkedList<String> getRandomChords(int num_random_chords)
+  std::vector<Chord> ScaleManager::getRandomChords(int num_random_chords)
   {
 	  
-    LinkedList<String> random_chords = new LinkedList<String>();
+    std::vector<Chord> random_chords;
     int random_interval;
     
-  	System.out.println("random chords is : " +num_random_chords);
+  	std::cerr << "random chords is : " << num_random_chords << std::endl;
     for(int i =0; i< num_random_chords; i++){
-    	System.out.println("random interval is : " +this.getRandomInterval());
+    	std::cerr << "random interval is : " << getRandomInterval() << std::endl;
     	do
-    	  random_interval = this.getRandomInterval();
+    	  random_interval = getRandomInterval();
     	while (random_interval >= SCALE_NOTES - 1); // dont include 7th or 8th interval
     	
       try {
-		random_chords.add(this.getChord(random_interval));
-	} catch (InvalidNoteException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+		random_chords.push_back(getChord(random_interval));
+	} catch (exceptions::InvalidNoteException & e) {
+		std::cerr << "Error adding random chord\n";
 	}
     }
     
@@ -179,19 +170,19 @@ public abstract class ScaleManager {
    * @return true if the note is in the scale and false otherwise
    * @throws InvalidNoteException 
    */
-  public boolean noteInScale(NoteLetterType note)
+  bool ScaleManager::noteInScale(NoteLetterType note)
   {
   
-    boolean note_in_scale = false;
+    bool note_in_scale = false;
     for (int interval_index = 1; interval_index <=8; interval_index++){
       
       try {
 	      if (note == 
-	      	  this.scale.noteToType(this.getNote(interval_index))){
+	      	  scale.getNote(this->getNote(interval_index))){
 	        note_in_scale = true;
 	        break;
 	      }
-      } catch (InvalidNoteException e) {
+      } catch (exceptions::InvalidNoteException &e) {
 	      return false;
       }
     }
@@ -206,42 +197,40 @@ public abstract class ScaleManager {
    * @return number of intervals from the root note.
    * @throws InvalidNoteException 
    */
-  public byte getInterval(NoteLetterType note) throws InvalidNoteException
+  InstrumentOctave ScaleManager::getInterval(NoteLetterType note)
   {
   
-    byte interval_index = 1;
+    InstrumentOctave interval_index = 1;
     for (; interval_index <=8; interval_index++){
       
       if (note == 
-      		this.scale.noteToType(this.getNote(interval_index))){
+      		scale.getNote(this->getNote(interval_index))){
         break;
       }
     }
     return interval_index;
     
   }
-  
-  /**
-   * Converts the <Class>ScaleManager</Class> object to string
-   * 
-   * @return String representation of the Scale_Manager object.
-   * @see ScaleManager
-   */
-  public String toString()
+    
+namespace arias{
+namespace common{
+/**
+ * Converts the class to string
+ * @return string representation of the class
+ */
+std::ostream & operator << (std::ostream & os, const ScaleManager& scale)
+{
+  for (InstrumentOctave interval_index = 1; interval_index <=8; interval_index++)
   {
-	  
-	  String string_obj = "";
-
-	  for (int interval_index = 1; interval_index <=8; interval_index++)
-		try {
-			string_obj += this.getChord(interval_index) + ", ";
-		} catch (InvalidNoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	  return string_obj;
-	  
+    try {
+	  	os << scale.getChord(interval_index) << ", ";
+	  } catch (exceptions::InvalidNoteException &e) {
+	  	// TODO Auto-generated catch block
+	  	os << "Invalid note exception error\n";
+	  }
   }
-  
+
+  return os;
 }
+
+}}

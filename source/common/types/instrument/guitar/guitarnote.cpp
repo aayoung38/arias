@@ -123,14 +123,15 @@ namespace guitar{
  */
 std::ostream & operator << (std::ostream & os, const GuitarNote & note)
 {
-
-  
      os << "String Number: " << unsigned(note.string_number) 
         << ", Fret Number: " << unsigned(note.fret_number)
         << ", Fret letter: " << note.letter
         << ", Object: " << Note(note);
 
         return os;
-  }
-}}}}}
+}
+
+}}}}
+
+}
   

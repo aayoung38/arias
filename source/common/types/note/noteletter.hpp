@@ -87,14 +87,6 @@ class NoteLetter {
     NoteLetter& operator=(const NoteLetter & note);
 
     /**
-     * Outputs the object to standard output
-     */
-	  friend std::ostream & operator << (std::ostream &, const NoteLetter & note);
-
-  protected:
-    static const std::string NULL_VAL;
-    
-    /**
      * Converts the given <Enum>NoteLetterType</Enum> to letter
      * 
      * @param type letter to convert to string
@@ -102,6 +94,16 @@ class NoteLetter {
      * @return string representation of the given type
      */
     std::string getStringNote() const;
+
+    /**
+     * Outputs the object to standard output
+     */
+	  friend std::ostream & operator << (std::ostream &, const NoteLetter & note);
+
+  protected:
+    static const std::string NULL_VAL;
+    
+    
     
     static NoteLetterType getNoteLetter(const std::string & note);
 
