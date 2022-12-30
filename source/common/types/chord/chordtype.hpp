@@ -9,6 +9,7 @@ enum ChordType{
             Diminished,
             Major7,
             Minor7,
+            NULL_CHORD,
 };
 }
 }

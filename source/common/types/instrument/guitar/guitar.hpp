@@ -46,14 +46,14 @@ class Guitar {
    * Gets a random string from the initialized guitar object
    * @return
    */
-  std::uint8_t getRandomString();
+  InstrumentString getRandomString();
   
   /**
    * Gets a random fret number between 0 and the number of supported guitar
    * frets.
    * @return integer between 0 and <code>GUITAR_FRETS</code>
    */
-  std::uint8_t getRandomFret();
+  InstrumentFret getRandomFret();
   
   
   /**

@@ -1,8 +1,8 @@
 add_library(
     scaleapi
     scalemanager.cpp
-   # majorscalemanager.cpp
-   # minorscalemanager.cpp
+    majorscalemanager.cpp
+    minorscalemanager.cpp
 )
 
 target_include_directories(scaleapi PUBLIC

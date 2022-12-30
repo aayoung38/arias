@@ -5,7 +5,7 @@
  */
 
 #include "guitar.hpp"
-//using namespace arias::common::types::note;
+using namespace arias::common::types;
 using namespace arias::common::types::instrument::guitar;
   
   /**
