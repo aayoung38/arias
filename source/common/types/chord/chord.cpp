@@ -12,6 +12,11 @@ Chord::Chord(NoteLetter note, ChordType chord)
     this->note = note;
 }
 
+bool Chord::operator==(const Chord & c) const
+{
+    return this->chordType == c.chordType && this->note.getNote() == c.note.getNote();
+}
+
 namespace arias{
 namespace common{
 namespace types{

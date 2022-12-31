@@ -6,12 +6,12 @@ namespace types{
 namespace chord{
 
 enum ChordType{
-            Major,
-            Minor,
-            Diminished,
-            Major7,
-            Minor7,
-            NULL_CHORD,
+  Major,
+  Minor,
+  Diminished,
+  Major7,
+  Minor7,
+  NULL_CHORD
 };
 
 }

@@ -1,14 +1,28 @@
 #include "gtest/gtest.h"
-#include "majorscalemanager.h"
+#include "minorscalemanager.h"
+#include "notelettertype.h"
+#include "chord.h"
+#include "chordtype.h"
 #include <cmath>
-TEST (MinorScaleManagerTest, PositiveNos) { 
-    EXPECT_EQ (18.0, sqrt (324.0));
-    EXPECT_EQ (25.4, sqrt (645.16));
-    EXPECT_EQ (50.332, sqrt (2533.310224));
-}
 
-TEST (MinorScaleManagerTest, ZeroAndNegativeNos) { 
-    ASSERT_EQ (0.0, sqrt (0.0));
-    //ASSERT_EQ (‑1, sqrt (‑22.0));
+using namespace arias::common::scale;
+using namespace arias::common::types::note;
+using namespace arias::common::types::chord;
+TEST (MinorScaleManagerTest, RelativeScale) { 
+
+    std::pair<MinorScaleManager, Chord> inputs[7] =
+    {
+        std::make_pair(MinorScaleManager(A), Chord(NoteLetter(C),Major)),
+        std::make_pair(MinorScaleManager(B), Chord(NoteLetter(D),Major)),
+        std::make_pair(MinorScaleManager(C), Chord(NoteLetter(D_SHARP),Major)),
+        std::make_pair(MinorScaleManager(D), Chord(NoteLetter(F),Major)),
+        std::make_pair(MinorScaleManager(E), Chord(NoteLetter(G),Major)),
+        std::make_pair(MinorScaleManager(F), Chord(NoteLetter(G_SHARP),Major)),
+        std::make_pair(MinorScaleManager(G), Chord(NoteLetter(A_SHARP),Major))
+    };
+    
+    for (int i=0; i<7; i++)
+        EXPECT_EQ (inputs[i].second, inputs[i].first.getRelativeScale());
+
 }
 

@@ -38,14 +38,16 @@ FetchContent_MakeAvailable(googletest)
 # GTest
 ################################
 #ADD_SUBDIRECTORY (gtest-1.6.0)
-#enable_testing()
-#include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
+enable_testing()
+include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 # Link test executable against gtest & gtest_main
-target_link_libraries(ariastest gtest gtest_main)
+target_link_libraries(ariastest chordapi noteapi scaleapi guitarapi gtest gtest_main)
+
+
 
 install(TARGETS ariastest
         LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/test)
 
 include(GoogleTest)
-#gtest_discover_tests( ariastest )
+gtest_discover_tests( ariastest )

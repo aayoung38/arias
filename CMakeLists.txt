@@ -4,6 +4,11 @@ project(Arias)
 
 set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/arias_bin)
 
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake/modules)
+
+include(CodeCoverage)
+append_coverage_compiler_flags()
+
 # Aliases for subdirectories for ease of access
 set(ARIAS_COMMON       ${CMAKE_CURRENT_SOURCE_DIR}/source/common)
 set(ARIAS_TYPES        ${CMAKE_CURRENT_SOURCE_DIR}/source/common/types)
@@ -22,3 +27,11 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/source/platform/linux)
 
 #add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/googletest)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/test)
+
+setup_target_for_coverage_lcov(
+          NAME coverage
+          EXECUTABLE ariastest
+          BASE_DIRECTORY ".."
+          EXCLUDE /usr/include/*
+                  ${Project_SOURCE_DIR}/build/_deps/*
+)
