@@ -1,2 +1,2 @@
 # arias
-Repository for the Arias music generation project.
+Repository for the Arias autonomous music creation project.
