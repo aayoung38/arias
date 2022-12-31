@@ -6,11 +6,11 @@
 
 #pragma once
 
-#include "invalidnoteexception.hpp"
-#include "notelettertype.hpp"
-#include "note.hpp"
-#include "notevaluetype.hpp"
-#include "instrumenttypes.hpp"
+#include "invalidnoteexception.h"
+#include "notelettertype.h"
+#include "note.h"
+#include "notevaluetype.h"
+#include "instrumenttypes.h"
 
 using namespace arias::common::types::note;
 

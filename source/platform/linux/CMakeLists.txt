@@ -6,6 +6,8 @@ add_executable(
 target_include_directories(arias PUBLIC
     ${ARIAS_GUITAR_TYPES}
     ${ARIAS_NOTE_TYPES}
+    ${ARIAS_CHORD_TYPES}
+    ${ARIAS_SCALES}
     ${ARIAS_TYPES}
     ${ARIAS_EXCEPTIONS}
     .

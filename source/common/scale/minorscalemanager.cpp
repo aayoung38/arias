@@ -4,8 +4,8 @@
  * @since       2013-06-09          
  */
 
-#include "minorscalemanager.hpp"
-#include "invalidnoteexception.hpp"
+#include "minorscalemanager.h"
+#include "invalidnoteexception.h"
 using namespace arias::common::scale;
 using namespace arias::common::exceptions;
 using namespace arias::common::types::note;

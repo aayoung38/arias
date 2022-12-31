@@ -5,9 +5,9 @@
  */
 
 
-#include "scalemanager.hpp"
-#include "invalidnoteexception.hpp"
-#include "chordtype.hpp"
+#include "scalemanager.h"
+#include "invalidnoteexception.h"
+#include "chordtype.h"
 #include <vector>
 using namespace arias::common::types;
 using namespace arias::common::scale;

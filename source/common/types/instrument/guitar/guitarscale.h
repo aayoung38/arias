@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include "scalemanager.hpp"
-#include "guitar.hpp"
-#include "notenotinscaleexception.hpp"
-#include "noteletter.hpp"
+#include "scalemanager.h"
+#include "guitar.h"
+#include "notenotinscaleexception.h"
+#include "noteletter.h"
 
 #include <vector>
 

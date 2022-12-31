@@ -5,11 +5,11 @@
  */
 #pragma once
 
-#include "invalidnoteexception.hpp"
-#include "instrumenttypes.hpp"
-#include "notelettertype.hpp"
-#include "notevalue.hpp"
-#include "noteletter.hpp"
+#include "invalidnoteexception.h"
+#include "instrumenttypes.h"
+#include "notelettertype.h"
+#include "notevalue.h"
+#include "noteletter.h"
 #include <iostream>
 #include <stdlib.h>
 #include <math.h>

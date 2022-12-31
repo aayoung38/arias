@@ -7,11 +7,11 @@
 
 #pragma once
 
-#include "guitarnote.hpp"
-#include "notelettertype.hpp"
-#include "note.hpp"
-#include "notevaluetype.hpp"
-#include "instrumenttypes.hpp"
+#include "guitarnote.h"
+#include "notelettertype.h"
+#include "note.h"
+#include "notevaluetype.h"
+#include "instrumenttypes.h"
 #include <memory>
 #include <vector>
 

@@ -7,9 +7,9 @@
 #pragma once
 
 // project includes
-#include "invalidnoteexception.hpp"
-#include "invalidintervalexception.hpp"
-#include "notelettertype.hpp"
+#include "invalidnoteexception.h"
+#include "invalidintervalexception.h"
+#include "notelettertype.h"
 
 // std library includes
 #include <iostream>

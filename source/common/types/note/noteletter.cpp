@@ -4,8 +4,8 @@
  * @since       2013-06-09          
  */
 
-#include "noteletter.hpp"
-#include "invalidnoteexception.hpp"
+#include "noteletter.h"
+#include "invalidnoteexception.h"
 #include <array>
 using namespace arias::common::types::note;
 using namespace arias::common::exceptions;

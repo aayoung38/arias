@@ -9,7 +9,7 @@
 #include <iostream>
 #include <map>
 #include <string.h>
-#include "notevaluetype.hpp"
+#include "notevaluetype.h"
 
 namespace arias{
 namespace common{

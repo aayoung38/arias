@@ -1,8 +1,10 @@
 #pragma once
+
 namespace arias{
 namespace common{
 namespace types{
 namespace chord{
+
 enum ChordType{
             Major,
             Minor,
@@ -11,6 +13,7 @@ enum ChordType{
             Minor7,
             NULL_CHORD,
 };
+
 }
 }
 }

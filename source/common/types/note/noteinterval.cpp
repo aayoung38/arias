@@ -1,7 +1,7 @@
 
 
-#include "noteinterval.hpp"
-#include "invalidintervalexception.hpp"
+#include "noteinterval.h"
+#include "invalidintervalexception.h"
 using namespace arias::common::types::note;
 using namespace arias::common::exceptions;
 

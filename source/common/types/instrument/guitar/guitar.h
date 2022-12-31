@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include "noteletter.hpp"
-#include "guitarnote.hpp"
-#include "guitarstring.hpp"
-#include "instrumenttypes.hpp"
+#include "noteletter.h"
+#include "guitarnote.h"
+#include "guitarstring.h"
+#include "instrumenttypes.h"
 #include <iostream>
 #include <memory>
 

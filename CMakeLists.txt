@@ -19,3 +19,6 @@ add_subdirectory(${ARIAS_NOTE_TYPES})
 add_subdirectory(${ARIAS_GUITAR_TYPES})
 add_subdirectory(${ARIAS_SCALES})
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/source/platform/linux)
+
+#add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/googletest)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/test)

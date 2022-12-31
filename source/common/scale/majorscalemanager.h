@@ -4,9 +4,9 @@
  * @since       2013-06-09          
  */
 
-#include "noteletter.hpp"
-#include "notelettertype.hpp"
-#include "scalemanager.hpp"
+#include "noteletter.h"
+#include "notelettertype.h"
+#include "scalemanager.h"
 
 using namespace arias::common::types;
 using namespace arias::common::types::note;

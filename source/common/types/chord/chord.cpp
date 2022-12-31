@@ -1,4 +1,4 @@
-#include "chord.hpp"
+#include "chord.h"
 using namespace arias::common::types::chord;
 
 Chord::Chord(){

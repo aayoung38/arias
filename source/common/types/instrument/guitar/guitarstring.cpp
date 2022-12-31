@@ -4,7 +4,7 @@
  * @since       2013-06-09          
  */
 
-#include "guitarstring.hpp"
+#include "guitarstring.h"
 
 #include <iostream>
 

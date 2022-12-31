@@ -1,6 +1,8 @@
-#include "note.hpp"
-#include "guitarnote.hpp"
-#include "instrumenttypes.hpp"
+#include "note.h"
+#include "guitarnote.h"
+#include "instrumenttypes.h"
+#include "majorscalemanager.h"
+#include "minorscalemanager.h"
 //#include "audiodriver.hpp"
 #include <iostream>
 using namespace std;

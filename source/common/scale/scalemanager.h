@@ -6,12 +6,12 @@
 
 #pragma once
 
-#include "invalidnoteexception.hpp"
-#include "noteletter.hpp"
-#include "notelettertype.hpp"
-#include "instrumenttypes.hpp"
-#include "randominterval.hpp"
-#include "chord.hpp"
+#include "invalidnoteexception.h"
+#include "noteletter.h"
+#include "notelettertype.h"
+#include "instrumenttypes.h"
+#include "randominterval.h"
+#include "chord.h"
 
 #include <vector>
 #include <stdlib.h>

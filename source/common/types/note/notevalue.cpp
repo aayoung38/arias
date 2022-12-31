@@ -4,8 +4,8 @@
  * @since       2013-06-09          
  */
 
-#include "notevalue.hpp"
-#include "notevaluetype.hpp"
+#include "notevalue.h"
+#include "notevaluetype.h"
 #include <vector>
 #include <stdlib.h>
 #include <time.h>

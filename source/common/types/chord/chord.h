@@ -1,7 +1,7 @@
 #pragma once
 
-#include "chordtype.hpp"
-#include "noteletter.hpp"
+#include "chordtype.h"
+#include "noteletter.h"
 
 using namespace arias::common::types::note;
 

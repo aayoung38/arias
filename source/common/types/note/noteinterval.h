@@ -1,7 +1,7 @@
 #pragma once
 
 // project includes
-#include "invalidintervalexception.hpp"
+#include "invalidintervalexception.h"
 
 // std lib includes
 #include "stdint.h"
