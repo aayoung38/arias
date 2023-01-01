@@ -105,7 +105,7 @@ TEST (MinorScaleManagerTest, Membership) {
     
     MinorScaleManager scaleB(NULL_NOTE);
 
-    EXPECT_FALSE(scaleA.noteInScale(NULL_NOTE));
+    EXPECT_FALSE(scaleB.noteInScale(NULL_NOTE));
 }
 
 TEST (MinorScaleManagerTest, IntervalComputation) { 
@@ -118,4 +118,23 @@ TEST (MinorScaleManagerTest, IntervalComputation) {
     //EXPECT_THROW(scaleA.getInterval(A_SHARP), NoteNotInScaleException);
     EXPECT_NO_THROW(scaleA.getInterval(A_SHARP));
     
+}
+
+TEST (MinorScaleManagerTest, RandomChords) { 
+    MinorScaleManager scaleA(A);
+    for (Chord c : scaleA.getRandomChords(4))
+    {
+        std::cout << c << std::endl;
+    }
+    //EXPECT_EQ(scaleA.getInterval(B), expected);
+    EXPECT_TRUE(true);
+
+     MinorScaleManager scaleB(NULL_NOTE);
+
+     for (Chord c : scaleB.getRandomChords(4))
+    {
+        std::cout << c << std::endl;
+    }
+    //EXPECT_EQ(scaleA.getInterval(B), expected);
+    EXPECT_TRUE(true);
 }

@@ -14,13 +14,13 @@ class Chord{
 
     public:
 
-        Chord();
+        //Chord() =0;
         Chord(NoteLetter note, ChordType chord);
         bool operator==(const Chord &) const;
         friend std::ostream & operator << (std::ostream &, const Chord& chord);
     private:
-        ChordType chordType;
-        note::NoteLetter note;
+        ChordType _chordType;
+        note::NoteLetter _note;
 };
 
 }

@@ -1,20 +1,13 @@
 #include "chord.h"
 using namespace arias::common::types::chord;
 
-Chord::Chord(){
-    chordType = Major;
-    note = C;
-}
-
-Chord::Chord(NoteLetter note, ChordType chord)
+Chord::Chord(NoteLetter note, ChordType chord) : _chordType(chord), _note(note)
 {
-    chordType = chord;
-    this->note = note;
 }
 
 bool Chord::operator==(const Chord & c) const
 {
-    return this->chordType == c.chordType && this->note.getNote() == c.note.getNote();
+    return _chordType == c._chordType && _note.getNote() == c._note.getNote();
 }
 
 namespace arias{
@@ -23,7 +16,7 @@ namespace types{
 namespace chord{
 std::ostream & operator << (std::ostream & os, const Chord& chord)
 {
-    os << chord.note.getStringNote() << chord.chordType;
+    os << chord._note.getStringNote() << chord._chordType;
 	return os;
 }
 }}}}
