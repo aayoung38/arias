@@ -79,9 +79,9 @@ Chord MinorScaleManager::getRelativeScale() const
 MinorScaleManager MinorScaleManager::getRandomScale()
 {
 	try {
-		InstrumentOctave t = rand.getInterval();
-		InstrumentOctave t2 = rand.getInterval();
-		InstrumentOctave t3 = rand.getInterval();
+	//	InstrumentOctave t = rand.getInterval();
+		//InstrumentOctave t2 = rand.getInterval();
+		//InstrumentOctave t3 = rand.getInterval();
 		//std::cout << "************\n";
 		//std::cout << "-> "<<t << " " << t2 << " "<< t3 << std::endl;
 		//std::cout << "************\n";
@@ -115,11 +115,11 @@ namespace scale{
  */
 std::ostream & operator << (std::ostream & os, const MinorScaleManager& scale)
 {
-  for (InstrumentOctave interval_index = 1; interval_index <=8; interval_index++)
-  {
-	  	os << scale.getChord(interval_index) << ", ";
-  }
-  os << + " (relative major = " << scale.getRelativeScale() << ")\n";
+  //for (InstrumentOctave interval_index = 1; interval_index <=8; interval_index++)
+  //{
+	//  	os << scale.getChord(interval_index) << ", ";
+ // }
+  os << static_cast <const ScaleManager &>( scale ) << " (relative major = " << scale.getRelativeScale() << ")\n";
   return os;
 }
 

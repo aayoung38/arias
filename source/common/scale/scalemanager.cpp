@@ -7,6 +7,7 @@
 
 #include "scalemanager.h"
 #include "invalidnoteexception.h"
+#include "notenotinscaleexception.h"
 #include "chordtype.h"
 #include <vector>
 using namespace arias::common::types;
@@ -97,16 +98,6 @@ Chord ScaleManager::getChord(InstrumentOctave interval) const
 }
 
 /**
- * Gets the relative scale of the root depending on the scale. If the scale 
- * is a major scale then the relative minor is computed. If the scale is
- * a minor scale the the relative major is computed.
- * 
- * @return relative scale of the initialized note.
- * 
- */
-Chord ScaleManager::getRelativeScale() const { return Chord(); }
-
-/**
  * Gets the note in the interval of the initialized root note.
  * 
  * @param interval - range 1 .. 8
@@ -194,13 +185,20 @@ bool ScaleManager::noteInScale(NoteLetterType note)
 InstrumentOctave ScaleManager::getInterval(NoteLetterType note)
 {
 
-  InstrumentOctave interval_index = 1;
-  for (; interval_index <=8; interval_index++){
+  InstrumentOctave interval_index = -1;
+  for (InstrumentOctave i=1; i <=8; i++){
     
     if (note == 
-        scale.getNote(this->getNote(interval_index))){
+        scale.getNote(this->getNote(i))){
+      interval_index = i;
       break;
+
     }
+  }
+
+  if (interval_index == -1)
+  {
+    throw NoteNotInScaleException();
   }
   return interval_index;
   

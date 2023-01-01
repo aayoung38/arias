@@ -83,7 +83,7 @@ class ScaleManager {
     * @return relative scale of the initialized note.
     * 
     */
-    virtual Chord getRelativeScale() const;
+    virtual Chord getRelativeScale() const =0;
   
     /**
     * Gets the note in the interval of the initialized root note.
@@ -126,7 +126,7 @@ class ScaleManager {
     * @throws InvalidNoteException 
     */
     InstrumentOctave getInterval(NoteLetterType note);
-  
+    
     /**
     * Converts the <Class>ScaleManager</Class> object to string
     * 
@@ -136,6 +136,7 @@ class ScaleManager {
 	  friend std::ostream & operator << (std::ostream &, const ScaleManager& scale);
   
   protected:
+
 
     RandomInterval rand;
     bool use_flats;
