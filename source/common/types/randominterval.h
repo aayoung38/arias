@@ -1,7 +1,7 @@
 
 #include "instrumenttypes.h"   
 #include <random>
-
+#include <iostream>
 namespace arias{
 namespace common{
 namespace types{
@@ -10,14 +10,18 @@ class RandomInterval
 {
 
    public:
-      RandomInterval()
+      RandomInterval() : distribution(1,SCALE_NOTES)
       {
-         distribution = std::uniform_int_distribution<int> (1, SCALE_NOTES);
       }
-      InstrumentOctave getInterval(){ return distribution(generator); }
+
+      InstrumentOctave getInterval()
+      { 
+         return distribution(gen); 
+      }
+
    private:
-      std::default_random_engine generator;
-      std::uniform_int_distribution<int> distribution;
+      std::default_random_engine gen;
+      std::uniform_int_distribution<InstrumentOctave> distribution;
 };
 
 }}}

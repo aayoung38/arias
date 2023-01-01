@@ -93,7 +93,7 @@ class ScaleManager {
     * @throws InvalidNoteException 
     * 
     */
-    NoteLetterType getNote(InstrumentOctave interval) const;
+    virtual NoteLetterType getNote(InstrumentOctave interval) const;
   
     /**
     * Gets a random interval between 1 - 8 inclusive from the root note
@@ -138,6 +138,7 @@ class ScaleManager {
   protected:
 
     RandomInterval rand;
+    bool use_flats;
     NoteLetter scale;
     int halfStepsMap[SCALE_NOTES];
  

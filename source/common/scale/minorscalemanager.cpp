@@ -49,7 +49,7 @@ MinorScaleManager::MinorScaleManager(NoteLetterType scale) : ScaleManager(scale)
  * @throws InvalidNoteException 
  * 
  */  
-MinorScaleManager::MinorScaleManager(NoteLetter scale, bool use_flats) : ScaleManager(scale, use_flats) 
+MinorScaleManager::MinorScaleManager(NoteLetterType scale, bool use_flats) : ScaleManager(scale, use_flats) 
 { 
 }
 
@@ -66,7 +66,7 @@ Chord MinorScaleManager::getRelativeScale() const
 		return Chord(getNote(RELATIVE_MAJOR_INTERVAL), Major);
 	} catch (InvalidNoteException e) {
 		std::cerr << "Error getting relative scale";
-        return Chord(NULL_NOTE, NULL_CHORD);;
+    return Chord(NULL_NOTE, NULL_CHORD);;
 	} 
 }
 
@@ -79,11 +79,31 @@ Chord MinorScaleManager::getRelativeScale() const
 MinorScaleManager MinorScaleManager::getRandomScale()
 {
 	try {
-		return MinorScaleManager(NoteLetter(getNote(rand.getInterval())), false);
+		InstrumentOctave t = rand.getInterval();
+		InstrumentOctave t2 = rand.getInterval();
+		InstrumentOctave t3 = rand.getInterval();
+		//std::cout << "************\n";
+		//std::cout << "-> "<<t << " " << t2 << " "<< t3 << std::endl;
+		//std::cout << "************\n";
+		return MinorScaleManager(getNote(rand.getInterval()), use_flats);
 	} catch (InvalidNoteException e) {			
-		std::cerr << "Error getting relative scale";
+		std::cerr << "Error getting relative scale\n";
 		return MinorScaleManager(NULL_NOTE);
 	}
+}
+
+/*
+* Equality operator
+*/
+bool MinorScaleManager::operator==(const MinorScaleManager & mgr) const{
+	return scale.getNote() == mgr.scale.getNote();
+}
+
+/*
+* Inequality operator
+*/
+bool MinorScaleManager::operator!=(const MinorScaleManager & mgr) const{
+	return scale.getNote() != mgr.scale.getNote();
 }
 
 namespace arias{
@@ -97,12 +117,7 @@ std::ostream & operator << (std::ostream & os, const MinorScaleManager& scale)
 {
   for (InstrumentOctave interval_index = 1; interval_index <=8; interval_index++)
   {
-    try {
 	  	os << scale.getChord(interval_index) << ", ";
-	  } catch (exceptions::InvalidNoteException &e) {
-	  	// TODO Auto-generated catch block
-	  	os << "Invalid note exception error\n";
-	  }
   }
   os << + " (relative major = " << scale.getRelativeScale() << ")\n";
   return os;

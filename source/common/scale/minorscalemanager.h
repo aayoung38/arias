@@ -15,7 +15,7 @@ namespace arias{
 namespace common{
 namespace scale{
 
-class MinorScaleManager : ScaleManager {
+class MinorScaleManager : public ScaleManager {
 
   public:
 
@@ -48,7 +48,7 @@ class MinorScaleManager : ScaleManager {
 	 	* @throws InvalidNoteException 
 	 	* 
 	 	*/  
-		MinorScaleManager(NoteLetter scale, bool use_flats);
+		MinorScaleManager(NoteLetterType scale, bool use_flats);
 
 		/**
 	 	* Gets the relative minor note of the initialized the root note.
@@ -67,6 +67,9 @@ class MinorScaleManager : ScaleManager {
 	 	*/
     MinorScaleManager getRandomScale();
 
+    bool operator==(const MinorScaleManager &) const;
+    bool operator!=(const MinorScaleManager &) const;
+
   	/**
   	* Converts the <Class>ScaleManager</Class> object to string
    	* 
@@ -77,6 +80,7 @@ class MinorScaleManager : ScaleManager {
 
 	protected:
     static const int RELATIVE_MAJOR_INTERVAL = 3;
+	
 
 };
 

@@ -11,6 +11,7 @@
 #include <vector>
 using namespace arias::common::types;
 using namespace arias::common::scale;
+using namespace arias::common::exceptions;
 
 /**
 * Constructor for the Scale_Manager class
@@ -24,6 +25,7 @@ using namespace arias::common::scale;
 ScaleManager::ScaleManager(NoteLetterType scale){ 
 
 	  this->scale = NoteLetter(scale); 
+    use_flats = false;
   }
 
 /**
@@ -42,6 +44,7 @@ ScaleManager::ScaleManager(NoteLetter scale, bool use_flats)
   
   //this.note_utilities = new NoteLetter(scale, use_flats);
   this->scale = scale;
+  this->use_flats = use_flats;
 }
   
 /**
@@ -114,6 +117,8 @@ Chord ScaleManager::getRelativeScale() const { return Chord(); }
 NoteLetterType ScaleManager::getNote(InstrumentOctave interval) const
 {
 
+  if (scale.getNote() == NULL_NOTE)
+    throw InvalidNoteException();
   //int octave = interval / SCALE_NOTES;
   int scale_interval = interval % SCALE_NOTES; 
       
@@ -212,12 +217,7 @@ std::ostream & operator << (std::ostream & os, const ScaleManager& scale)
 {
   for (InstrumentOctave interval_index = 1; interval_index <=8; interval_index++)
   {
-    try {
 	  	os << scale.getChord(interval_index) << ", ";
-	  } catch (exceptions::InvalidNoteException &e) {
-	  	// TODO Auto-generated catch block
-	  	os << "Invalid note exception error\n";
-	  }
   }
 
   return os;
