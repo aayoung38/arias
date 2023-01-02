@@ -17,6 +17,7 @@ class Chord{
         //Chord() =0;
         Chord(NoteLetter note, ChordType chord);
         bool operator==(const Chord &) const;
+        std::string chordType()const;
         friend std::ostream & operator << (std::ostream &, const Chord& chord);
     private:
         ChordType _chordType;

@@ -54,6 +54,45 @@ MajorScaleManager::MajorScaleManager(NoteLetter scale, bool use_flats) : ScaleMa
 }
 
 /**
+ * Gets a chord in the key of the initialized root note using the interval as 
+ * the distance from the root. 
+ *
+ * @param  interval a number between (1-8) which represents the interval of 
+ *         the root note. If the number is greater than 8 it is assumed to be
+ *         in a higher octave.
+ * @return a chord from the given interval of the root in the scale of the 
+ *         initialized root note as a string.
+ * @throws InvalidNoteException 
+ * @see    String
+ */
+Chord MajorScaleManager::getChord(InstrumentOctave interval) const
+{
+
+  int scale_interval = interval % SCALE_NOTES; 
+      
+  NoteLetterType note = 
+      scale.getNote( toHalfSteps(scale_interval));
+
+  
+  ChordType _chord; 
+  switch(interval){
+    case 2: case 3: case 6: 
+      _chord = Minor;
+      break;
+    case 7: 
+      _chord = Diminished;
+      break;
+    default:
+      _chord = Major;
+      break;
+  }
+
+  return Chord(note, _chord);
+
+}
+
+InstrumentOctave MajorScaleManager::diminishedInterval() const {return 7;};
+/**
  * Gets the relative minor note of the initialized the root note.
  * <p>
  * The relative minor is assumed to be the 5th interval of the major scale
@@ -79,7 +118,7 @@ Chord MajorScaleManager::getRelativeScale() const
 MajorScaleManager MajorScaleManager::getRandomScale()
 {
 	try {
-		return MajorScaleManager(NoteLetter(getNote(rand.getInterval())), false);
+		return MajorScaleManager(NoteLetter(getNote((InstrumentOctave) getRandomInterval())), false);
 	} catch (InvalidNoteException e) {			
 		std::cerr << "Error getting relative scale";
 		return MajorScaleManager(NULL_NOTE);

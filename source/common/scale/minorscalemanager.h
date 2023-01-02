@@ -58,7 +58,9 @@ class MinorScaleManager : public ScaleManager {
 	 	* @return a number in half steps from the root.
 	 	*/
 		Chord getRelativeScale() const;
+    InstrumentOctave diminishedInterval() const;
 
+    Chord getChord(InstrumentOctave interval)const;
 		/**
 	 	* Gets a new random scale in any major key 
 	 	*

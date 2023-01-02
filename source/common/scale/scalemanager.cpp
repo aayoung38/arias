@@ -10,6 +10,7 @@
 #include "notenotinscaleexception.h"
 #include "chordtype.h"
 #include <vector>
+#include <random>
 using namespace arias::common::types;
 using namespace arias::common::scale;
 using namespace arias::common::exceptions;
@@ -23,11 +24,10 @@ using namespace arias::common::exceptions;
 * flat note.
 *
 */
-ScaleManager::ScaleManager(NoteLetterType scale){ 
-
-	  this->scale = NoteLetter(scale); 
-    use_flats = false;
-  }
+ScaleManager::ScaleManager(NoteLetterType _scale) :  scale(_scale), 
+                                                     use_flats(false)
+{ 
+}
 
 /**
  * Constructor for the Scale_Manager class
@@ -40,12 +40,9 @@ ScaleManager::ScaleManager(NoteLetterType scale){
  *         of flats rather than sharps.
  * @throws InvalidNoteException 
  */
-ScaleManager::ScaleManager(NoteLetter scale, bool use_flats)
+ScaleManager::ScaleManager(NoteLetter _scale, bool _use_flats) : scale(_scale), 
+                                                                 use_flats(_use_flats)
 {
-  
-  //this.note_utilities = new NoteLetter(scale, use_flats);
-  this->scale = scale;
-  this->use_flats = use_flats;
 }
   
 /**
@@ -61,41 +58,20 @@ int ScaleManager::toHalfSteps(InstrumentOctave interval) const {
   
     return interval < 9 && interval > 0 ? halfStepsMap[interval-1] : 0; }
   
-/**
- * Gets a chord in the key of the initialized root note using the interval as 
- * the distance from the root. 
- *
- * @param  interval a number between (1-8) which represents the interval of 
- *         the root note. If the number is greater than 8 it is assumed to be
- *         in a higher octave.
- * @return a chord from the given interval of the root in the scale of the 
- *         initialized root note as a string.
- * @throws InvalidNoteException 
- * @see    String
- */
-Chord ScaleManager::getChord(InstrumentOctave interval) const
-{
 
-  int scale_interval = interval % SCALE_NOTES; 
-      
-  NoteLetterType note = 
-      scale.getNote( toHalfSteps(scale_interval));
-  ChordType _chord; 
-  switch(interval){
-    case 2: case 3: case 6: 
-      _chord = Minor;
-      break;
-    case 7: 
-      _chord = Diminished;
-      break;
-    default:
-      _chord = Major;
-      break;
-  }
-
-  return Chord(note, _chord);
-
-}
+//uint32_t ScaleManager::getRandomInterval()
+//{ 
+  
+  // Lehmer32 method
+  //nLehmer += 0xe120fc15;
+  //uint64_t tmp;
+  //tmp = (uint64_t)nLehmer * 0x4a39b70d;
+  //uint32_t m1 = (tmp >> 32) ^ tmp;
+  //tmp = (uint64_t)m1 * 0x12fad5c9;
+  //uint32_t m2 = (tmp >> 32) ^ tmp;
+  //std::cout << "rand = " << tmp << " " << (tmp % SCALE_NOTES);
+//  return dist(mt); 
+//}
 
 /**
  * Gets the note in the interval of the initialized root note.
@@ -126,17 +102,19 @@ NoteLetterType ScaleManager::getNote(InstrumentOctave interval) const
  */
 std::vector<Chord> ScaleManager::getRandomChords(int num_random_chords)
 {
-  
+  std::random_device rd;
+  std::mt19937 mt(rd());
+  std::uniform_int_distribution<uint32_t> dist(1,SCALE_NOTES);
+
+  //nLehmer = time(NULL);
   std::vector<Chord> random_chords;
   InstrumentOctave random_interval;
 
-  std::cerr << "random chords is : " << num_random_chords << std::endl;
   for(int i =0; i< num_random_chords; i++){
     do{
-      random_interval = rand.getInterval();
-      std::cerr << "random interval is : " << random_interval << std::endl;
+      random_interval = dist(mt);
     }
-    while (random_interval >= SCALE_NOTES - 1); // dont include 7th or 8th interval
+    while (random_interval == diminishedInterval()); // dont include 7th or 8th interval
     
     try {
       random_chords.push_back(getChord(random_interval));
@@ -213,9 +191,15 @@ namespace scale{
  */
 std::ostream & operator << (std::ostream & os, const ScaleManager& scale)
 {
-  for (InstrumentOctave interval_index = 1; interval_index <=8; interval_index++)
+  if (scale.scale.getNote() == NULL_NOTE){
+    os << "Rest Note";
+  }
+  else
   {
+    for (InstrumentOctave interval_index = 1; interval_index <=8; interval_index++)
+    {
 	  	os << scale.getChord(interval_index) << ", ";
+    }
   }
 
   return os;

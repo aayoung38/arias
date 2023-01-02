@@ -10,9 +10,9 @@
 #include "noteletter.h"
 #include "notelettertype.h"
 #include "instrumenttypes.h"
-#include "randominterval.h"
 #include "chord.h"
 
+#include <random>
 #include <vector>
 #include <stdlib.h>
 
@@ -60,7 +60,7 @@ class ScaleManager {
     * @return a number in half steps from the root.
     */
     int toHalfSteps(InstrumentOctave interval) const;
-  
+    virtual InstrumentOctave diminishedInterval() const =0;
     /**
     * Gets a chord in the key of the initialized root note using the interval as 
     * the distance from the root. 
@@ -73,7 +73,7 @@ class ScaleManager {
     * @throws InvalidNoteException 
     * @see    String
     */
-    Chord getChord(InstrumentOctave interval) const;
+    virtual Chord getChord(InstrumentOctave interval) const =0;
 
     /**
     * Gets the relative scale of the root depending on the scale. If the scale 
@@ -100,7 +100,7 @@ class ScaleManager {
     * 
     * @return random interval
     */
-    InstrumentOctave getRandomInterval();
+    uint32_t getRandomInterval();
 
     /**
     * Generates a list of random chords having the size of the given parameter.
@@ -126,7 +126,7 @@ class ScaleManager {
     * @throws InvalidNoteException 
     */
     InstrumentOctave getInterval(NoteLetterType note);
-    
+
     /**
     * Converts the <Class>ScaleManager</Class> object to string
     * 
@@ -137,8 +137,6 @@ class ScaleManager {
   
   protected:
 
-
-    RandomInterval rand;
     bool use_flats;
     NoteLetter scale;
     int halfStepsMap[SCALE_NOTES];

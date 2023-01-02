@@ -50,6 +50,9 @@ class MajorScaleManager : ScaleManager {
 		 */  
 		MajorScaleManager(NoteLetter scale, bool use_flats);
 
+    Chord getChord(InstrumentOctave interval)const;
+    InstrumentOctave diminishedInterval() const;
+
 		/**
 		 * Gets the relative minor note of the initialized the root note.
 		 * <p>

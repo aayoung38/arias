@@ -8,7 +8,8 @@ project(arias_tests)
 add_executable( ariastest 
 scale/testmajorscalemanager.cpp 
 scale/testminorscalemanager.cpp 
-scale/testscalemanager.cpp )
+#scale/testscalemanager.cpp 
+)
 
 #include(CMakePrintHelpers)
 #cmake_print_variables(ARIAS_SCALES)

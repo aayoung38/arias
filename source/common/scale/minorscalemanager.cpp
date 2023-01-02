@@ -53,6 +53,34 @@ MinorScaleManager::MinorScaleManager(NoteLetterType scale, bool use_flats) : Sca
 { 
 }
 
+Chord MinorScaleManager::getChord(InstrumentOctave interval) const
+{
+
+  int scale_interval = interval % SCALE_NOTES; 
+      
+  NoteLetterType note = 
+      scale.getNote( toHalfSteps(scale_interval));
+
+  ChordType _chord; 
+  switch(interval){
+    case 1: case 4: case 5: case 8: 
+      _chord = Minor;
+      break;
+    case 2: 
+      _chord = Diminished;
+      break;
+    default:
+      _chord = Major;
+      break;
+  }
+
+  return Chord(note, _chord);
+
+}
+/*
+*/
+InstrumentOctave MinorScaleManager::diminishedInterval() const {return 2;};
+
 /**
  * Gets the relative minor note of the initialized the root note.
  * <p>
@@ -65,7 +93,6 @@ Chord MinorScaleManager::getRelativeScale() const
 	try {
 		return Chord(getNote(RELATIVE_MAJOR_INTERVAL), Major);
 	} catch (InvalidNoteException e) {
-		std::cerr << "Error getting relative scale";
     return Chord(NULL_NOTE, NULL_CHORD);;
 	} 
 }
@@ -79,13 +106,17 @@ Chord MinorScaleManager::getRelativeScale() const
 MinorScaleManager MinorScaleManager::getRandomScale()
 {
 	try {
+		
+  std::random_device rd;
+  std::mt19937 mt;
+  std::uniform_int_distribution<uint32_t> dist(0,SCALE_NOTES+1);
 	//	InstrumentOctave t = rand.getInterval();
 		//InstrumentOctave t2 = rand.getInterval();
 		//InstrumentOctave t3 = rand.getInterval();
 		//std::cout << "************\n";
 		//std::cout << "-> "<<t << " " << t2 << " "<< t3 << std::endl;
 		//std::cout << "************\n";
-		return MinorScaleManager(getNote(rand.getInterval()), use_flats);
+		return MinorScaleManager(getNote((InstrumentOctave)dist(mt)), use_flats);
 	} catch (InvalidNoteException e) {			
 		std::cerr << "Error getting relative scale\n";
 		return MinorScaleManager(NULL_NOTE);

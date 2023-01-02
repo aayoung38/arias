@@ -111,8 +111,16 @@ TEST (MinorScaleManagerTest, Membership) {
 TEST (MinorScaleManagerTest, IntervalComputation) { 
     MinorScaleManager scaleA(A);
     InstrumentOctave expected = 2;
-    //EXPECT_EQ(scaleA.getInterval(B), expected);
-    EXPECT_TRUE(true);
+    Chord a = scaleA.getChord(1);
+    
+    EXPECT_EQ(scaleA.getChord(1), Chord(NoteLetter(A),Minor));
+    EXPECT_EQ(scaleA.getChord(2), Chord(NoteLetter(B),Diminished));
+    EXPECT_EQ(scaleA.getChord(3), Chord(NoteLetter(C),Major));
+    EXPECT_EQ(scaleA.getChord(4), Chord(NoteLetter(D),Minor));
+    EXPECT_EQ(scaleA.getChord(5), Chord(NoteLetter(E),Minor));
+    EXPECT_EQ(scaleA.getChord(6), Chord(NoteLetter(F),Major));
+    EXPECT_EQ(scaleA.getChord(7), Chord(NoteLetter(G),Major));
+    EXPECT_EQ(scaleA.getChord(8), Chord(NoteLetter(A),Minor));
 
     std::cout << scaleA.getInterval(A_SHARP);
     //EXPECT_THROW(scaleA.getInterval(A_SHARP), NoteNotInScaleException);
@@ -122,19 +130,20 @@ TEST (MinorScaleManagerTest, IntervalComputation) {
 
 TEST (MinorScaleManagerTest, RandomChords) { 
     MinorScaleManager scaleA(A);
-    for (Chord c : scaleA.getRandomChords(4))
+    for (Chord c : scaleA.getRandomChords(10))
     {
         std::cout << c << std::endl;
     }
+    std::cout << "---";
     //EXPECT_EQ(scaleA.getInterval(B), expected);
     EXPECT_TRUE(true);
 
-     MinorScaleManager scaleB(NULL_NOTE);
+     //MinorScaleManager scaleB(NULL_NOTE);
 
-     for (Chord c : scaleB.getRandomChords(4))
-    {
-        std::cout << c << std::endl;
-    }
+ //    for (Chord c : scaleB.getRandomChords(10))
+   // {
+   //     std::cout << c << std::endl;
+   /// }
     //EXPECT_EQ(scaleA.getInterval(B), expected);
     EXPECT_TRUE(true);
 }
