@@ -1,5 +1,5 @@
 # arias
-Repository for the Arias music generation project.
+Repository for the Arias music generation project. This project represents some of my more recent work to build my knowledge base around using C++ to interact with musical instruments in realtime.
 
 Build:
 
